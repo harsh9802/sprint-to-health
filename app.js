@@ -85,6 +85,14 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/interactions", interactionsRouter);
+// Get for Login and signup function
+app.get('/', (req,res) => {
+  res.sendFile(path.resolve('public/login.html'))
+})
+
+app.get('/signup', (req,res) => {
+  res.sendFile(path.resolve('public/signup.html'))
+})
 
 // Handling incorrect routes
 app.all("*", (req, res, next) => {
