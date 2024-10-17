@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sprint 2 Health</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Project Title -->
+        <h1 class="project-title">Sprint 2 Health</h1>
+
+        <!-- Login Box -->
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="loginForm" action="/login" method="POST">
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        <span class="toggle-password" onclick="togglePassword()">👁</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit">Login</button>
+
+                <!-- Sign Up Link -->
+                <p class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+
+                <!-- Help Links -->
+                <div class="help-links">
+                    <a href="#">Forgot Password?</a> |
+                    <a href="#">Need Help?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
