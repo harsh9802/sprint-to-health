@@ -42,6 +42,18 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
+
+//Password and Confirm password comparison 
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (password !== confirmPassword) {
+      event.preventDefault(); // Prevent form submission
+      alert('Password does not match, Please try again. ');
+  }
+});
+
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" })); // Middleware
 
