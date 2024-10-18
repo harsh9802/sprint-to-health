@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health 2 Sprint - Sign Up</title>
     <link rel="stylesheet" href="signup.css">
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('passwordConfirm').value;
+
+        if (password !== passwordConfirm) {
+            event.preventDefault(); // Prevent form submission
+            alert('Password does not match, Please try again. ');
+        }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -14,24 +25,20 @@
             <h2>Create Your Account</h2>
             <form id="signupForm" action="/api/v1/users/signup" method="POST">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required>
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required>
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
                 <div class="form-group">
-                    <label for="Confirmpassword">Confirm Password</label>
-                    <input type="password" id="passwordConfirm" name="Confirmpassword" required>
+                    <label for="passwordConfirm">Confirm Password</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" required>
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>

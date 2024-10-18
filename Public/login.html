@@ -16,11 +16,10 @@
         <!-- Login Box -->
         <div class="login-box">
             <h2>Login</h2>
-            <form id="loginForm" action="/login" method="POST">
-                <!-- Username -->
+            <form id="loginForm" action="/api/v1/users/login" method="POST">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" required placeholder="Enter your email">
                 </div>
 
                 <!-- Password -->
