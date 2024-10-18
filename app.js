@@ -11,6 +11,7 @@ import xss from "xss-clean";
 import hpp from "hpp";
 
 import userRouter from "./routes/userRoutes.js";
+import llmRouter from "./routes/llmRoutes.js";
 import interactionsRouter from "./routes/interactionsRoutes.js";
 import globalErrorHandler from "./controllers/errorController.js";
 import { fileURLToPath } from "url"; // Importing to get __dirname
@@ -42,17 +43,6 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
-
-//Password and Confirm password comparison 
-document.getElementById('signupForm').addEventListener('submit', function(event) {
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirmPassword').value;
-
-  if (password !== confirmPassword) {
-      event.preventDefault(); // Prevent form submission
-      alert('Password does not match, Please try again. ');
-  }
-});
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" })); // Middleware
@@ -97,6 +87,7 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/interactions", interactionsRouter);
+app.use("/api/v1/llm", llmRouter);
 // Get for Login and signup function
 app.get('/', (req,res) => {
   res.sendFile(path.resolve('public/login.html'))
@@ -104,6 +95,10 @@ app.get('/', (req,res) => {
 
 app.get('/signup', (req,res) => {
   res.sendFile(path.resolve('public/signup.html'))
+})
+
+app.get('/home', (req,res) => {
+  res.sendFile(path.resolve('public/dashboard.html'))
 })
 
 // Handling incorrect routes
