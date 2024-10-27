@@ -48,7 +48,17 @@ export const updateOne = (Model) =>
 
 export const createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const document = await Model.create(req.body);
+    // Include user_id from req.user if available (from authentication middleware)
+    const userId = req.user ? req.user.id : null;
+
+    // Create a new object that merges the user ID with other data in req.body
+    const data = { ...req.body };
+    if (userId) {
+      data.user_id = userId;
+    }
+
+    // Use the combined data to create the document
+    const document = await Model.create(data);
 
     res.status(201).json({
       status: "success",

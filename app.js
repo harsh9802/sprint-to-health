@@ -12,8 +12,11 @@ import hpp from "hpp";
 
 import userRouter from "./routes/userRoutes.js";
 import llmRouter from "./routes/llmRoutes.js";
+import dashboardRouter from "./routes/dashboardRoutes.js";
+import vitalsRouter from "./routes/vitalsRoutes.js";
 import interactionsRouter from "./routes/interactionsRoutes.js";
 import globalErrorHandler from "./controllers/errorController.js";
+import AppError from "./utils/appError.js";
 import { fileURLToPath } from "url"; // Importing to get __dirname
 import { dirname } from "path"; // Importing to get directory name
 
@@ -42,7 +45,6 @@ const limiter = rateLimit({
 
 // Apply the rate limiter to all requests
 app.use(limiter);
-
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" })); // Middleware
@@ -88,18 +90,21 @@ app.use((req, res, next) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/interactions", interactionsRouter);
 app.use("/api/v1/llm", llmRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
+app.use("/api/v1/vitals", vitalsRouter);
+
 // Get for Login and signup function
-app.get('/', (req,res) => {
-  res.sendFile(path.resolve('public/login.html'))
-})
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve("public/logi  n.html"));
+});
 
-app.get('/signup', (req,res) => {
-  res.sendFile(path.resolve('public/signup.html'))
-})
+app.get("/signup", (req, res) => {
+  res.sendFile(path.resolve("public/signup.html"));
+});
 
-app.get('/home', (req,res) => {
-  res.sendFile(path.resolve('public/dashboard.html'))
-})
+app.get("/home", (req, res) => {
+  res.sendFile(path.resolve("public/dashboard.html"));
+});
 
 // Handling incorrect routes
 app.all("*", (req, res, next) => {

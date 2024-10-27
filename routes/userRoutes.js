@@ -4,11 +4,6 @@ import * as authController from "../controllers/authController.js";
 
 const router = express.Router();
 
-// // Homepage routes
-// router.route("/").get((req, res) => {
-//   res.render("home"); // Render login/register page
-// });
-
 router.post("/signup", authController.signup);
 
 router.post("/login", authController.login);
