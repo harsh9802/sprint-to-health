@@ -5,7 +5,7 @@ import * as authController from "../controllers/authController.js";
 const router = express.Router();
 
 // Protect all routes for logged-in users only
-router.use(authController.protect);
+// router.use(authController.protect);
 
 // Dashboard routes
 
@@ -15,6 +15,11 @@ router.post("/", vitalsRecordsController.createVitalsRecord);
 router.get(
   "/myVitals",
   vitalsRecordsController.getLatestVitalsRecordsForVitals
+);
+
+router.get(
+  "/myVitals24Hrs",
+  vitalsRecordsController.getVitalsValuesForLast24Hours
 );
 
 // Get all latest vital records for the logged-in user
