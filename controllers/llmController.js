@@ -31,7 +31,9 @@ export const fetchChatGPTResponse = async (req, res) => {
 export const getSummaryFromDashboard = async (req, res) => {
 	// var dashboardImage = fs.readFileSync("design.png", { encoding: "base64" });
 
-	var dashboardImage = req.body;
+	var dashboardImage = req.body.dashboardImage;
+	dashboardImage = dashboardImage.replace("data:image/png;base64,", "");
+	
 
 	const body = JSON.stringify({
 		model: model_name,
@@ -40,8 +42,9 @@ export const getSummaryFromDashboard = async (req, res) => {
 				role: "user", content: [{
 					type: "text", 
 					text: "Attached image is a screenshot of the dashboard of vitals for a given user. \
-					Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user.\
-					Give response in strictly given format JSON: {'transcript': 'Thank you for asking about your health summary. <your response based on the dashboard>'}"
+					Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user (might be blind).\
+					Give response in strictly given format JSON: {\"transcript\": \"Thank you for asking about your health summary. <your response based on the dashboard>\"}\
+					When forming a dashboard summary, make sure to include specific numbers and not just generalised information."
 				}]
 			},
 			{

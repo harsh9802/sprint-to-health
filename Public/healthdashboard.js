@@ -75,3 +75,39 @@ function displayCharts() {
         }
     });
 }
+    
+
+document.getElementById("getSummary").addEventListener("click", async () => {
+    screenshotTarget = document.body
+
+    html2canvas(screenshotTarget).then(async (canvas) => {
+        var base64image = canvas.toDataURL("image/png");
+        const response = await fetch('/api/v1/llm/summarizeDashboard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ dashboardImage: base64image })
+        });
+
+        response.json().then((summary) => {
+            console.log(summary.response)
+            summaryJson = summary.response.replace("```json", "");
+            summaryJson = summaryJson.replace("```", "");
+            transcript = JSON.parse(summaryJson).transcript;
+            console.log(transcript)
+            speak(transcript)
+        })
+            
+
+
+    });
+   
+    
+});
+
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+}
