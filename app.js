@@ -47,10 +47,10 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: "10kb" })); // Middleware
+app.use(express.json({ limit: "1mb" })); // Middleware
 
 // Section 195: Udating User Data - URL encoding parser
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 // Cookie parser, reading data from cookie into req.body
 app.use(cookieParser()); // Section 189 - Cookies parser middleware for login
 
@@ -103,7 +103,7 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
-  res.sendFile(path.resolve("public/dashboard.html"));
+  res.sendFile(path.resolve("public/healthdashboard.html"));
 });
 
 // Handling incorrect routes

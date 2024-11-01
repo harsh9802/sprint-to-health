@@ -177,6 +177,80 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
   }
 );
 
+export const getVitalsValuesForLast24Hours = catchAsync(
+  async (req, res, next) => {
+    const { userId, vital_names } = req.body; // Expecting userId and an array of vital names
+ 
+    if (!userId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide a valid user ID.",
+      });
+    }
+ 
+    if (!Array.isArray(vital_names) || vital_names.length === 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide an array of vital names.",
+      });
+    }
+ 
+    // Convert userId to a mongoose ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+ 
+    // Find vital IDs that match the provided names
+    const vitalRecords = await Vital.find({ name: { $in: vital_names } }).select("_id name");
+ 
+    if (!vitalRecords.length) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No matching vitals found for the provided names.",
+      });
+    }
+ 
+    const vitalIds = vitalRecords.map((vital) => vital._id);
+    const vitalNameMap = vitalRecords.reduce((acc, vital) => {
+      acc[vital._id.toString()] = vital.name; // Map vital ID to its name
+      return acc;
+    }, {});
+ 
+    // Calculate the timestamp for 24 hours ago
+    const last24Hours = new Date(Date.now() - 10000 * 60 * 60 * 1000);
+ 
+    // Aggregation pipeline to filter records for the last 24 hours
+    const docs = await VitalsRecord.aggregate([
+      {
+        $match: {
+          user_id: userObjectId,
+          vital_id: { $in: vitalIds },
+          timestamp: { $gte: last24Hours }, // Match records from the last 24 hours
+        },
+      },
+      {
+        $sort: { timestamp: -1 }, // Sort by timestamp in descending order
+      },
+      {
+        $group: {
+          _id: "$vital_id",
+          values: { $push: "$value" }, // Collect all values for each vital ID
+        },
+      },
+    ]);
+ 
+    // Transform the result into the desired format
+    const result = docs.reduce((acc, doc) => {
+      const vitalName = vitalNameMap[doc._id.toString()];
+      acc[vitalName] = doc.values; // Map vital name to its array of values
+      return acc;
+    }, {});
+ 
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  }
+);
+
 // Get all vitals records in the database
 export const getAllVitalsRecords = factory.getAll(VitalsRecord);
 // Get one vitals record

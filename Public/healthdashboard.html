@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Care Dashboard</title>
     <link rel="stylesheet" href="healthdashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="dashboard">
         <h1>Health Care Dashboard</h1>
+        <button id="getSummary">Explain with Voice</button>
 
         <div class="grid-container">
             <!-- Section 1: Profile Information -->
             <div class="section profile">
-                <h2>Aniket Tripathi</h2>
+                <h2 id="name">Test User 1</h2>
                 <div class="info-box"><strong>27 Years</strong><span>Age</span></div>
                 <div class="info-box"><strong>O+</strong><span>Blood Group</span></div>
                 <div class="info-box"><strong>6.00 FT</strong><span>Height</span></div>
