@@ -103,7 +103,7 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
-  res.sendFile(path.resolve("public/dashboard.html"));
+  res.sendFile(path.resolve("public/healthdashboard.html"));
 });
 
 // Handling incorrect routes
