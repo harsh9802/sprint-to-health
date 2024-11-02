@@ -25,6 +25,9 @@ router.get(
 // Get all latest vital records for the logged-in user
 router.get("/allMyVitals", vitalsRecordsController.getAllLatestVitalsRecords);
 
+
+router.post("/getLatestVitals", vitalsRecordsController.getVitalsValuesForLast24Hours);
+
 // Middleware to restrict the following methods to admins only
 router.use(authController.restrictTo("admin"));
 
