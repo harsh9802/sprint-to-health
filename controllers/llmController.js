@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import axios from "axios";
 // import fs from "fs";
 dotenv.config({ path: "./config.env" }); // Load environment variables
 
@@ -61,5 +62,32 @@ export const getSummaryFromDashboard = async (req, res) => {
 	// return data.choices[0].message.content;
 	return res.status(200).json({
 		response: data.choices[0].message.content
+	});
+};
+
+export const fetchResponse = async (req, res) => {
+	// var dashboardImage = fs.readFileSync("design.png", { encoding: "base64" });
+    console.log("route called .....  : ",req.body);
+	let userResponse = req.body.userResponse;
+	let assistantQueston = req.body.assistantQueston;
+
+	console.log("process : ",process.env.OPENAI_API_KEY);
+
+	const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+    };
+    const body = JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: userResponse }],
+    });
+	//making query to the chatgpt
+	const resp = await axios.post('https://api.openai.com/v1/chat/completions',body,{headers});
+    
+	//store question answer to the database
+    console.log("response : ",resp);
+
+    return res.status(200).json({
+		response: resp.data.choices[0].message.content
 	});
 };
