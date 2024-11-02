@@ -1,0 +1,66 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 3
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+
+    - name: Set up environment variables
+      env:
+        NODE_ENV: development
+        DATABASE: mongodb+srv://vijay:${{ secrets.DB_PASSWORD }}@cluster1.mhgqz.mongodb.net/SpeedySprinters?retryWrites=true&w=majority&appName=Cluster1
+        DATABASE_LOCAL: mongodb://localhost:27017/SpeedySprinters
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        PORT: 3000
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_EXPIRES_IN: 90d
+        JWT_COOKIE_EXPIRES_IN: 90
+        EMAIL_HOST: sandbox.smtp.mailtrap.io
+        EMAIL_PORT: 25
+        EMAIL_FROM: vijay111991@gmail.com
+        MONGO_URI_TEST: mongodb://localhost:27017/test_db
+        
+    - name: Wait for MongoDB to be ready
+      run: until nc -z localhost 27017; do sleep 1; done
+      
+    - name: Start server
+      run: npm run start &
+    
+    - name: Run tests
+      run: npm test
