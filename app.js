@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
-
+import cors from 'cors';
 import userRouter from "./routes/userRoutes.js";
 import llmRouter from "./routes/llmRoutes.js";
 import dashboardRouter from "./routes/dashboardRoutes.js";
@@ -30,6 +30,16 @@ const __dirname = dirname(__filename);
 // All the static files will be served from the public folder. Example, the stylesheet.css, images, html, etc
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, "public"))); // Using the path module
+// Body parser, reading data from body into req.body
+app.use(express.json()); // Middleware
+
+// Section 195: Udating User Data - URL encoding parser
+app.use(express.urlencoded({ extended: true }));
+// Cookie parser, reading data from cookie into req.body
+app.use(cookieParser()); // Section 189 - Cookies parser middleware for login
+app.use(cors({
+  origin: "*"
+}));
 
 // Development logging
 if (process.env.NODE_ENV === "development") {
@@ -45,14 +55,6 @@ const limiter = rateLimit({
 
 // Apply the rate limiter to all requests
 app.use(limiter);
-
-// Body parser, reading data from body into req.body
-app.use(express.json({ limit: "1mb" })); // Middleware
-
-// Section 195: Udating User Data - URL encoding parser
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
-// Cookie parser, reading data from cookie into req.body
-app.use(cookieParser()); // Section 189 - Cookies parser middleware for login
 
 // Data sanitization against NoSQL query injection - eg: "email": {"$gt":""}
 // What this middleware does is look at all of the req.body, req.params and req.queryString and
@@ -85,6 +87,11 @@ app.use((req, res, next) => {
   //   console.log('Hello from the second middleware');
   next();
 });
+
+app.use((req,res, next)=> {
+  console.log("request : ",req);
+  next();
+})
 
 // ROUTES
 app.use("/api/v1/users", userRouter);
