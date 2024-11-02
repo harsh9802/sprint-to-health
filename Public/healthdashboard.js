@@ -25,7 +25,6 @@ const glucoseCtx = document.getElementById('glucoseCanvas').getContext('2d');
 const bloodPressureCtx = document.getElementById('bloodPressureCanvas').getContext('2d');
 const activityCtx = document.getElementById('activityCanvas').getContext('2d');
 
-const OPENAI_API_KEY = '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'; // replace with your actual API key
 const startRecordButton = document.getElementById('askQuestions');
 const transcriptContainer = document.getElementById('transcript-container');
 
