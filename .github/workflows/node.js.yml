@@ -27,8 +27,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set up environment variables
-        run: echo "Environment variables set"
+      - name: Run tests
         env:
           NODE_ENV: development
           DATABASE_LOCAL: mongodb://localhost:27017/SpeedySprinters
@@ -37,6 +36,4 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: 90d
           JWT_COOKIE_EXPIRES_IN: 90
-
-      - name: Run tests
         run: npm test
