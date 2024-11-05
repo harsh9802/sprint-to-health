@@ -65,29 +65,28 @@ export const getSummaryFromDashboard = async (req, res) => {
 	});
 };
 
-export const fetchResponse = async (req, res) => {
-	// var dashboardImage = fs.readFileSync("design.png", { encoding: "base64" });
-    console.log("route called .....  : ",req.body);
-	let userResponse = req.body.userResponse;
-	let assistantQueston = req.body.assistantQueston;
+export const fetchServerResponse = async (req, res) => {
+    console.log("route called .....  : ", req.body);
+    let userResponse = req.body.userResponse;
 
-	console.log("process : ",process.env.OPENAI_API_KEY);
-
-	const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-    };
+    //console.log("process : ", process.env.OPENAI_API_KEY);
     const body = JSON.stringify({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: userResponse }],
     });
-	//making query to the chatgpt
-	const resp = await axios.post('https://api.openai.com/v1/chat/completions',body,{headers});
-    
-	//store question answer to the database
-    console.log("response : ",resp);
 
-    return res.status(200).json({
-		response: resp.data.choices[0].message.content
-	});
+    try {
+        const resp = await axios.post('https://api.openai.com/v1/chat/completions', body, { headers });
+
+        console.log("response : ", resp.data);
+
+        return res.status(200).json({
+            response: resp.data.choices[0].message.content
+        });
+    } catch (error) {
+        //console.error("API call failed: ", error);
+        return res.status(500).json({
+            error: "Internal Server Error"
+        });
+    }
 };
