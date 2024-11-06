@@ -7,19 +7,12 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-  const value = err.keyValue.name; // Directly access the duplicate value
+  const value = err.keyValue.name;
   const message = `Duplicate field value: "${value}". Please use another value.`;
   return new AppError(message, 400);
 };
 
 const handleValidationErrorDB = (err) => {
-  // Corrected: Object.values instead of Object.value
-
-  // Old method
-  //   const errors = Object.values(err.errors).map((el) => el.message);
-  //   const message = `Invalid input data. ${errors.join('. ')}`;
-
-  // New method
   const { message } = err;
   return new AppError(message, 400);
 };
@@ -30,9 +23,7 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError("Your token has expired. Please login again!", 401);
 
-// Send error in development enviornment
 const sendErrorDev = (err, req, res) => {
-  // A) API
   if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -52,28 +43,20 @@ const sendErrorDev = (err, req, res) => {
 
 // Send error in production enviornment
 const sendErrorProduction = (err, req, res) => {
-  // console.log('Environment:', process.env.NODE_ENV);
-  // A) API
   if (req.originalUrl.startsWith("/api")) {
-    // A) Operational, trusted error: send message to client
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
       });
     }
-    // B) Programming or other unknown error: don't leak error details
-    // 1) Log error
+
     console.error("ERROR 💥", err);
-    // 2) Send generic message
     return res.status(500).json({
       status: "error",
       message: "Something went very wrong!",
     });
   }
-
-  // B) RENDERED WEBSITE
-  // A) Operational, trusted error: send message to client
 
   if (err.isOperational) {
     return res.status(err.statusCode).render("error", {
@@ -81,10 +64,8 @@ const sendErrorProduction = (err, req, res) => {
       msg: err.message,
     });
   }
-  // B) Programming or other unknown error: don't leak error details
-  // 1) Log error
+
   console.error("ERROR 💥", err);
-  // 2) Send generic message
   return res.status(err.statusCode).render("error", {
     title: "Something went wrong!",
     msg: "Please try again later.",
@@ -99,7 +80,7 @@ export default (err, req, res, next) => {
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
-    error.message = err.message; // Ensure the message is included
+    error.message = err.message;
     if (error.name === "CastError") error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     if (error._message === "Validation failed")
