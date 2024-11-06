@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
-import cors from 'cors';
+import cors from "cors";
 import userRouter from "./routes/userRoutes.js";
 import llmRouter from "./routes/llmRoutes.js";
 import dashboardRouter from "./routes/dashboardRoutes.js";
@@ -37,9 +37,11 @@ app.use(express.json()); // Middleware
 app.use(express.urlencoded({ extended: true }));
 // Cookie parser, reading data from cookie into req.body
 app.use(cookieParser()); // Section 189 - Cookies parser middleware for login
-app.use(cors({
-  origin: "*"
-}));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Development logging
 if (process.env.NODE_ENV === "development") {
@@ -88,10 +90,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req,res, next)=> {
-  console.log("request : ",req);
+app.use((req, res, next) => {
+  console.log("request : ", req);
   next();
-})
+});
 
 // ROUTES
 app.use("/api/v1/users", userRouter);
