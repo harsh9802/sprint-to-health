@@ -12,13 +12,13 @@ router.use(authController.protect, authController.restrictTo("admin"));
 // Admin-specific routes
 router
   .route("/")
-  .get(vitalsController.getAllVitals) // Admin can view all records
-  .post(vitalsController.createVital); // Admin can create a record
+  .get(vitalsController.getAllVitals)
+  .post(vitalsController.createVital);
 
 router
   .route("/:id")
-  .get(vitalsController.getVital) // Admin can get a specific vital
-  .patch(vitalsController.updateVital) // Admin can update a vital
-  .delete(vitalsController.deleteVital); // Admin can delete a vital
+  .get(vitalsController.getVital)
+  .patch(vitalsController.updateVital)
+  .delete(vitalsController.deleteVital);
 
 export default router;
