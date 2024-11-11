@@ -56,7 +56,7 @@ describe("User Authentication", () => {
   test("Forgot Password", async () => {
     const user = await User.create({
       name: "Test User",
-      email: "test@example.com",
+      email: "vijay111991@example.com",
       password: "testpassword",
       passwordConfirm: "testpassword",
     });
