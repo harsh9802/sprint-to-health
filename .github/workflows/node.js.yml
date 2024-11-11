@@ -2,9 +2,10 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "SCRUM-49"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "SCRUM-49"]
+  workflow_dispatch:
 
 jobs:
   build:
