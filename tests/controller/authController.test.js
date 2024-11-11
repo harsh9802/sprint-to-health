@@ -1,5 +1,7 @@
 import request from "supertest";
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
+
 import app from "../../app.js";
 import User from "../../models/userModel.js";
 

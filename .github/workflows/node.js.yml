@@ -46,4 +46,12 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: 90d
           JWT_COOKIE_EXPIRES_IN: 90
+          EMAIL_USERNAME: ${ { secrets.EMAIL_USERNAME } }
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+
+          SENDGRID_USERNAME: ${{ secrets.SENDGRID_USERNAME }}
+          SENDGRID_PASSWORD: ${{ secrets.SENDGRID_PASSWORD }}
         run: npm test
