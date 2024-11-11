@@ -25,10 +25,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-replica-set: test-rs
+          mongodb-port: 42069
 
       - name: Install dependencies
         run: npm install
