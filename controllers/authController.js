@@ -5,11 +5,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
-import Email from "../utils/email.js";
-
-// Bad smells
-// 1) Too many comments
-// 2) Duplicate code
+import sendEmail from "../utils/email.js";
 
 const signToken = (id) =>
   jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -149,7 +145,14 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
       "host"
     )}/api/v1/users/resetPassword/${resetToken}`;
 
-    await new Email(user, resetURL).sendPasswordReset();
+    // await new Email(user, resetURL).sendPasswordReset();
+
+    const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password please ignore this email!`;
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 mins)",
+      message: message,
+    });
 
     res.status(200).json({
       status: "success",
