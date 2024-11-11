@@ -1,7 +1,7 @@
 import request from "supertest";
 import mongoose from "mongoose";
-import app from "../../app.js"; // Adjust path as necessary
-import User from "../../models/userModel.js"; // Adjust path as necessary
+import app from "../app.js";
+import User from "../models/userModel.js";
 
 // Connect to test database before running tests
 beforeAll(async () => {

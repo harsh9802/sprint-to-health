@@ -21,6 +21,7 @@ import {
   loggingMiddleware,
   rateLimitMiddleware,
   securityMiddleware,
+  parserMiddlewares,
 } from "./utils/middlewares/index.js";
 
 // Start the express app
@@ -32,6 +33,7 @@ const __rootDir = dirname(__filename);
 app.use(express.static(path.join(__rootDir, "public")));
 
 // Set up middlewares
+parserMiddlewares(app);
 securityMiddleware(app);
 loggingMiddleware(app);
 compressionMiddleware(app);
