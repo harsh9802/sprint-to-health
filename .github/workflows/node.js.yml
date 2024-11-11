@@ -40,6 +40,7 @@ jobs:
         env:
           NODE_ENV: development
           DATABASE_LOCAL: mongodb://localhost:27017/SpeedySprinters
+          MONGO_URI_TEST: mongodb://localhost:42069/SpeedySprintersTest
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           PORT: 3000
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
