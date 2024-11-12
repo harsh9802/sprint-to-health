@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config({ path: "./config/config.env" }); // Load environment variables
+dotenv.config({ path: "./config.env" }); // Load environment variables
 
 import path from "path";
 import { fileURLToPath } from "url";
