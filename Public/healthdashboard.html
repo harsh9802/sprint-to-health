@@ -10,11 +10,17 @@
 <body>
     <div class="dashboard">
         <h1>Health Care Dashboard</h1>
+        
+        <!-- Voice Selection Dropdown -->
+        <label for="voiceDropdown">Choose Voice:</label>
+        <select id="voiceDropdown">
+            <option value="">Select a voice</option>
+        </select>
+        
         <button id="getSummary">Explain with Voice</button>
         <button id="askQuestions">Start Interaction</button>
 
         <div class="grid-container">
-            <!-- Section 1: Profile Information -->
             <div class="section profile">
                 <h2 id="name">Test User 1</h2>
                 <div class="info-box"><strong>27 Years</strong><span>Age</span></div>
