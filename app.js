@@ -13,6 +13,7 @@ import {
   dashboardRouter,
   vitalsRouter,
   interactionsRouter,
+  appointmentRouter,
 } from "./routes/index.js";
 import globalErrorHandler from "./controllers/errorController.js";
 import AppError from "./utils/appError.js";
@@ -47,6 +48,7 @@ app.use("/api/v1/interactions", interactionsRouter);
 app.use("/api/v1/llm", llmRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/vitals", vitalsRouter);
+app.use("/api/v1/appointment", appointmentRouter);
 
 // Serve HTML files
 app.get("/", (req, res) => res.sendFile(path.resolve("public/login.html")));

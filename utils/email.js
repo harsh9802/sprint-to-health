@@ -1,4 +1,3 @@
-import User from "../models/userModel.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 
