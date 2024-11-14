@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import axios from "axios";
-// import fs from "fs";
+import { GET_SUMMARY_USER_PROMPT } from "../utils/llmUtils";
+
 dotenv.config({ path: "./config.env" }); // Load environment variables
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
@@ -32,36 +33,36 @@ export const fetchChatGPTResponse = async (req, res) => {
 export const getSummaryFromDashboard = async (req, res) => {
 	// var dashboardImage = fs.readFileSync("design.png", { encoding: "base64" });
 
+	// Bad Smell: 1. Resolved by removing extra logic
 	var dashboardImage = req.body.dashboardImage;
-	dashboardImage = dashboardImage.replace("data:image/png;base64,", "");
 	
 
 	const body = JSON.stringify({
 		model: model_name,
 		messages: [
 			{
+				// Bad Smell: 2. Resolved by storing the long text into constant in util
 				role: "user", content: [{
 					type: "text", 
-					text: "Attached image is a screenshot of the dashboard of vitals for a given user. \
-					Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user (might be blind).\
-					Give response in strictly given format JSON: {\"transcript\": \"Thank you for asking about your health summary. <your response based on the dashboard>\"}\
-					When forming a dashboard summary, make sure to include specific numbers and not just generalised information."
+					text: GET_SUMMARY_USER_PROMPT
 				}]
 			},
 			{
 				role: "user",
-				content: [{ type: "image_url", image_url: { url: `data:image/jpeg;base64,${dashboardImage}`, detail: "low" } }]
+				// Bad Smell: 1. resolved by removing redundant code
+				content: [{ type: "image_url", image_url: { url: dashboardImage, detail: "low" } }]
 			}
 		],
 	});
 
-	const response = await fetch(url, { method: 'POST', headers, body });
-	const data = await response.json();
-	console.log(data)
-	console.log(data.choices[0].message.content);
+	// 3. Variabl names refactored to more intuitive ones
+	const gptResponse = await fetch(url, { method: 'POST', headers, body });
+	const gptResponseJson = await gptResponse.json();
+	console.log(gptResponseJson)
+	console.log(gptResponseJson.choices[0].message.content);
 	// return data.choices[0].message.content;
 	return res.status(200).json({
-		response: data.choices[0].message.content
+		response: gptResponseJson.choices[0].message.content
 	});
 };
 
