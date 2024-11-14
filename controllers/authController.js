@@ -7,10 +7,6 @@ import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 import Email from "../utils/email.js";
 
-// Bad smells
-// 1) Too many comments
-// 2) Duplicate code
-
 const signToken = (id) =>
   jwt.sign({ id: id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,

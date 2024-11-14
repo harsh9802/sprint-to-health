@@ -2,9 +2,10 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "SCRUM-49"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "SCRUM-49"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,6 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
+        mongodb-version: ["8.0"]
 
     steps:
       - name: Checkout code
@@ -24,6 +26,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-replica-set: test-rs
+          mongodb-port: 42069
+
       - name: Install dependencies
         run: npm install
 
@@ -31,9 +40,18 @@ jobs:
         env:
           NODE_ENV: development
           DATABASE_LOCAL: mongodb://localhost:27017/SpeedySprinters
+          MONGO_URI_TEST: mongodb://localhost:42069/SpeedySprintersTest
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           PORT: 3000
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: 90d
           JWT_COOKIE_EXPIRES_IN: 90
+          EMAIL_USERNAME: ${ { secrets.EMAIL_USERNAME } }
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+
+          SENDGRID_USERNAME: ${{ secrets.SENDGRID_USERNAME }}
+          SENDGRID_PASSWORD: ${{ secrets.SENDGRID_PASSWORD }}
         run: npm test
