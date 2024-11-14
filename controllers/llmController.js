@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import axios from "axios";
-import { GET_SUMMARY_USER_PROMPT } from "../utils/llmUtils";
 
 dotenv.config({ path: "./config.env" }); // Load environment variables
 
@@ -16,6 +15,11 @@ const model_name = 'gpt-4o-mini';  // Or 'gpt-4' if availablE
 
 export const fetchChatGPTResponse = async (req, res) => {
 
+	req.body.role = "user",
+	req.body.type = "text",
+	req.body.content = req.body.question
+	createInteraction(req, res);
+
     const body = JSON.stringify({
       model: model_name,
       messages: [{ role: 'user', content: req.body.question }],
@@ -24,7 +28,12 @@ export const fetchChatGPTResponse = async (req, res) => {
     const response = await fetch(url, { method: 'POST', headers, body });
     const data = await response.json();
     console.log(data)
-    // return data.choices[0].message.content;
+	
+	req.body.role = "assistant",
+	req.body.type = "text",
+	req.body.content = data.choices[0].message.content
+	createInteraction(req, res);
+
     return res.status(200).json({
         response: data.choices[0].message.content
     });
@@ -35,6 +44,10 @@ export const getSummaryFromDashboard = async (req, res) => {
 
 	// Bad Smell: 1. Resolved by removing extra logic
 	var dashboardImage = req.body.dashboardImage;
+	req.body.role = "user",
+	req.body.type = "image",
+	req.body.content = dashboardImage
+	createInteraction(req, res);
 	
 
 	const body = JSON.stringify({
@@ -44,7 +57,10 @@ export const getSummaryFromDashboard = async (req, res) => {
 				// Bad Smell: 2. Resolved by storing the long text into constant in util
 				role: "user", content: [{
 					type: "text", 
-					text: GET_SUMMARY_USER_PROMPT
+					text: "Attached image is a screenshot of the dashboard of vitals for a given user. \
+							Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user (might be blind).\
+							Give response in strictly given format JSON: {\"transcript\": \"Thank you for asking about your health summary. <your response based on the dashboard>\"}\
+							When forming a dashboard summary, make sure to include specific numbers and not just generalised information."
 				}]
 			},
 			{
@@ -60,7 +76,12 @@ export const getSummaryFromDashboard = async (req, res) => {
 	const gptResponseJson = await gptResponse.json();
 	console.log(gptResponseJson)
 	console.log(gptResponseJson.choices[0].message.content);
-	// return data.choices[0].message.content;
+	
+	req.body.role = "assistant",
+	req.body.type = "text",
+	req.body.content = gptResponseJson.choices[0].message.content
+	createInteraction(req, res);
+
 	return res.status(200).json({
 		response: gptResponseJson.choices[0].message.content
 	});
