@@ -6,16 +6,22 @@ const interactionSchema = new mongoose.Schema({
     ref: "User", // Mongoose will use the User model registered in the project
     required: true,
   },
-  command: {
+  content: {
     type: String,
-    required: [true, "The command is required."],
+    required: [true, "The content is required."],
     trim: true,
   },
-  response: {
+  role: {
     type: String,
-    required: [true, "The response is required."],
+    required: [true, "The role is required."],
     trim: true,
   },
+  type: {
+    type: String,
+    required: [true, "The type is required."],
+    trim: true, 
+  },
+
   timestamp: {
     type: Date,
     default: Date.now,

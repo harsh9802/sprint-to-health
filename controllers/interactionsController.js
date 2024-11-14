@@ -4,13 +4,14 @@ import catchAsync from "../utils/catchAsync.js";
 
 // Create the interaction
 export const createInteraction = catchAsync(async (req, res, next) => {
-  const { command, response } = req.body;
+  const { content, role, type } = req.body;
 
   // Create a new interaction and save to the database
   const interaction = await Interaction.create({
     user: req.user.id,
-    command: command,
-    response: response,
+    content: content,
+    role: role,
+    type: type,
   });
 
   if (!interaction)
