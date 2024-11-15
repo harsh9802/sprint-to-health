@@ -16,9 +16,15 @@ import dashboardRouter from "./routes/dashboardRoutes.js";
 import vitalsRouter from "./routes/vitalsRoutes.js";
 import interactionsRouter from "./routes/interactionsRoutes.js";
 import globalErrorHandler from "./controllers/errorController.js";
+import appointmentrouter from "./routes/appointmentRoutes.js"
 import AppError from "./utils/appError.js";
 import { fileURLToPath } from "url"; // Importing to get __dirname
 import { dirname } from "path"; // Importing to get directory name
+<<<<<<< Updated upstream
+=======
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+>>>>>>> Stashed changes
 
 // Start the express app
 const app = express();
@@ -37,6 +43,7 @@ app.use(express.json()); // Middleware
 app.use(express.urlencoded({ extended: true }));
 // Cookie parser, reading data from cookie into req.body
 app.use(cookieParser()); // Section 189 - Cookies parser middleware for login
+<<<<<<< Updated upstream
 app.use(cors({
   origin: "*"
 }));
@@ -46,6 +53,20 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+=======
+app.use(cors());
+app.use(express.static('Public'));
+// app.use(cors({
+//   origin: "*"
+// }));
+
+
+// Development logging
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+>>>>>>> Stashed changes
 // Set up a rate limiter: 100 requests per IP per 15 minutes
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -99,10 +120,15 @@ app.use("/api/v1/interactions", interactionsRouter);
 app.use("/api/v1/llm", llmRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/vitals", vitalsRouter);
+app.use("/api/v1/appointments",appointmentrouter)
 
 // Get for Login and signup function
 app.get("/", (req, res) => {
+<<<<<<< Updated upstream
   res.sendFile(path.resolve("public/logi  n.html"));
+=======
+  res.sendFile(path.resolve("public/login.html"));
+>>>>>>> Stashed changes
 });
 
 app.get("/signup", (req, res) => {
@@ -120,4 +146,12 @@ app.all("*", (req, res, next) => {
 
 app.use(globalErrorHandler);
 
+<<<<<<< Updated upstream
 export default app;
+=======
+app.set('view engine', 'html');
+
+app.engine('html', require('ejs').renderFile);
+
+export default app;
+>>>>>>> Stashed changes

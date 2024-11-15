@@ -1,0 +1,98 @@
+<Doctype html>
+    <head>
+    <title>Sprint to Health</title>
+    <link rel="icon" href="vitalink.jpeg" type="jpeg">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="table.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <style>
+
+
+    </style>
+    <body>
+    <div class="sidebar close">
+    <div class="logo-details">
+    <i class='bx bx-shape-circle'></i>
+      <span class="logo_name">Chatbot</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="healthdashboard.html">
+          <i class='bx bx-grid-alt' ></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="healthdashboard.html">Dashboard</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="#">
+          <i class='bx bxs-cog'></i>
+            <span class="link_name">Settings</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow' ></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Settings</a></li>
+          <li><a href="#">Update Username</a></li>
+          <li><a href="#">Update Password</a></li>
+          <li><a href="#">Update Address</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="appointments.html">
+        <i class='bx bxs-receipt'></i>
+          <span class="link_name">Appointments</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="appointments.html">Appointments</a></li>
+        </ul>
+      </li>
+      <li>
+    <div class="profile-details">
+      <div class="profile-content">
+        <img src="vitalink.jpeg" alt="">
+      </div>
+      <div class="name-job">
+      <div class="profile_name">Log Out</div>
+        <div class="job">
+        </div>
+      </div>
+      <a href="logout.php"><i class='bx bx-log-out' ></i></a>
+    </div>
+  </li>
+</ul>
+  </div>
+  <section class="home-section">
+    <div class="home-content">
+      <i class='bx bx-menu' ></i>
+      <span class="text">Appointments</span>
+    </div>
+        <center><BR>
+    <form action='appointments.html' method=POST>
+    <table id="appointments-table">
+      <thead>
+    <tr>
+    <th>Doctor Name</th>
+    <th>Appointment Date</th>
+    <th>Location</th>
+    <th>Specialization</th>
+    <th>Appointment Type</th>
+    </tr>
+  </thead>
+  <tbody> 
+
+</tbody>
+    </table>
+    <br><a href='healthdashboard.html'><button type='button' class='button'>Back</button></a><br>&nbsp
+    </form>
+  </center>
+     </section>
+
+  <script src="appointments.js"></script>
+    </body>
+    </html>

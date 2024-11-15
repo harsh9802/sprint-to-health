@@ -175,10 +175,14 @@ function askQuestion() {
     if (remainingQuestions.length > 0) {
         const question = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)];
         askedQuestions.push(question);
+<<<<<<< Updated upstream
         
         // Display the question in the transcript container
        // transcriptContainer.innerHTML += `<p>Assistant asks: ${question}</p>`;
         
+=======
+        console.log(question);
+>>>>>>> Stashed changes
         recentAskQuestion = question;
         speak(question);
         questionCount++;

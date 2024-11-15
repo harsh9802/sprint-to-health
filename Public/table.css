@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
+    *{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+body {
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+.filter{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: .7;
+
+
+}
+
+table{
+
+    width: 90%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    box-shadow: 0 5px 12px rgba(32,32,32,.3);
+    background: #fafafa;
+    text-align: left;
+}
+th,td{
+    padding: 10px 15px;
+}
+th{
+    background: #000000;
+    color: #fafafa;
+    text-transform: uppercase;
+    font-family: 'Roboto',sans-serif;
+}
+
+td{
+    font-family: 'Open Sans' ,sans-serif;
+}
+
+tr:nth-child(odd){
+    background-color: #c6c2c3;
+}
+
+.box{
+    margin-top: 100px;
+    width: 500px;
+    height: 1500px;
+}
+
+.button {
+display: inline-block;
+padding: 5px 20px;
+font-size: 14px;
+cursor: pointer;
+text-align: center;
+text-decoration: none;
+outline: none;
+color: #fff;
+background-color: #000000;
+border: none;
+border-radius: 5px;
+box-shadow: 7px 7px #999;
+}
+
+.button:hover {background-color: #302e2e}
+
+.button:active {
+background-color: #000000;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
