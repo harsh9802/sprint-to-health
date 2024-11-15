@@ -89,6 +89,11 @@ export const getSummaryFromDashboard = async (req, res) => {
 
 export const fetchResponse = async (req, res) => {
 	// var dashboardImage = fs.readFileSync("design.png", { encoding: "base64" });
+	req.body.role = "user",
+	req.body.type = "text",
+	req.body.content = req.body.userResponse
+	createInteraction(req, res);
+
     console.log("route called .....  : ",req.body);
 	let userResponse = req.body.userResponse;
 	let assistantQueston = req.body.assistantQueston;
@@ -108,6 +113,11 @@ export const fetchResponse = async (req, res) => {
     
 	//store question answer to the database
     console.log("response : ",resp);
+
+	req.body.role = "assistant",
+	req.body.type = "text",
+	req.body.content = resp.data.choices[0].message.content
+	createInteraction(req, res);
 
     return res.status(200).json({
 		response: resp.data.choices[0].message.content
