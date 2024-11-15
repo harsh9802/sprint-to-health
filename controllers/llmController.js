@@ -45,8 +45,8 @@ export const getSummaryFromDashboard = async (req, res) => {
 	// Bad Smell: 1. Resolved by removing extra logic
 	var dashboardImage = req.body.dashboardImage;
 	req.body.role = "user",
-	req.body.type = "image",
-	req.body.content = dashboardImage
+	req.body.type = "text",
+	req.body.content = "Explain my health dashboard and give me a short summary audio"
 	createInteraction(req, res);
 	
 
