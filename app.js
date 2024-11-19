@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" }); // Load environment variables
+
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -12,7 +13,7 @@ import {
   dashboardRouter,
   vitalsRouter,
   interactionsRouter,
-  appointmentRouter
+  appointmentRouter,
 } from "./routes/index.js";
 import globalErrorHandler from "./controllers/errorController.js";
 import AppError from "./utils/appError.js";
