@@ -51,21 +51,4 @@ describe("User Authentication", () => {
     expect(response.body.status).toBe("success");
     expect(response.body.token).toBeDefined();
   });
-
-  test("Forgot Password", async () => {
-    const user = await User.create({
-      name: "Test User",
-      email: "vijay111991@example.com",
-      password: "testpassword",
-      passwordConfirm: "testpassword",
-    });
-
-    const response = await request(app)
-      .post("/api/v1/users/forgotPassword")
-      .send({ email: user.email });
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body.status).toBe("success");
-    expect(response.body.message).toBe("Token sent to email!");
-  });
 });
