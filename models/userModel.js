@@ -54,6 +54,44 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  dateOfBirth: {
+    type: String,
+    required: [true, "Date of Birth is required"], // Expected in DD/MM/YYYY format
+  },
+  age: {
+    type: Number,
+    min: [1, "Age must be at least 1"],
+    max: [120, "Age must be less than or equal to 120"],
+  },
+  address: {
+    city: {
+      type: String,
+      required: [true, "City is required"],
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: [true, "State is required"],
+      trim: true,
+    },
+    country: {
+      type: String,
+      required: [true, "Country is required"],
+      trim: true,
+    },
+  },
+  securityQuestion: {
+    question: {
+      type: String,
+      default: "What city were you born in?",
+      immutable: true,
+    },
+    answer: {
+      type: String,
+      required: [true, "Answer to security question is required"],
+      trim: true,
+    },
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -70,6 +108,18 @@ userSchema.pre("save", function (next) {
   if (!this.isModified("password") || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+// Pre-save middleware to calculate age
+userSchema.pre("save", function (next) {
+  if (this.dateOfBirth) {
+    const [day, month, year] = this.dateOfBirth.split("/").map(Number);
+    const dob = new Date(year, month - 1, day); // JS Date object (Month is 0-based)
+    const ageDifMs = Date.now() - dob.getTime();
+    const ageDate = new Date(ageDifMs); // Time difference in milliseconds
+    this.age = Math.abs(ageDate.getUTCFullYear() - 1970); // Calculate age
+  }
   next();
 });
 

@@ -1,0 +1,79 @@
+{{! signupPage.hbs }}
+{{> _header }}
+
+<main class="signup-page">
+    <h1 class="project-title">Sprint 2 Health</h1>
+    <div class="signup-box">
+        <h2>Create Your Account</h2>
+        <form id="signupForm" action="/api/v1/users/signup" method="POST">
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe" />
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="example@domain.com" />
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="8"
+                    placeholder="At least 8 characters" />
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="passwordConfirm">Confirm Password</label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm" required minlength="8"
+                    placeholder="Re-enter your password" />
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob" required />
+            </div>
+
+            <!-- Country -->
+            <select id="countryDropdown" name="country" required>
+                <option value="" disabled selected>Select your country</option>
+                {{#each countries}}
+                <option value="{{isoCode}}">{{name}}</option>
+                {{/each}}
+            </select>
+
+            <!-- State -->
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" required placeholder="Enter your state">
+            </div>
+
+            <!-- City -->
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required placeholder="Enter your city" />
+            </div>
+
+            <!-- Security Question Answer -->
+            <div class="form-group">
+                <label for="securityQuestion">City You Were Born In</label>
+                <input type="text" id="securityQuestion" name="securityQuestion" required
+                    placeholder="Enter your birth city" />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <!-- Login Link -->
+        <div class="login-link">
+            Already have an account? <a href="login.html">Log In</a>
+        </div>
+    </div>
+</main>
+
+{{> _footer }}

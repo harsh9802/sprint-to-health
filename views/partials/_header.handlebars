@@ -1,0 +1,20 @@
+<header class="header">
+    <div class="header__wrapper">
+        <!-- Logo -->
+        <div class="header__logo">
+            <img src="/img/logo.png" alt="Sprint to Health logo">
+        </div>
+
+        <!-- User Navigation -->
+        <nav class="nav nav--user">
+            {{#if user}}
+            <!-- Logged-in user -->
+            <a class="nav__el nav__el--logout" href="/logout">Log out</a>
+            {{else}}
+            <!-- Guest user -->
+            <a class="nav__el" href="/login">Log in</a>
+            <a class="nav__el nav__el--cta" href="/signup">Sign up</a>
+            {{/if}}
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care Dashboard</title>
+    <link rel="stylesheet" href="healthdashboard.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard">
+      <h1>Health Care Dashboard</h1>
+      <button id="getSummary">Explain with Voice</button>
+      <button id="askQuestions">Start Interaction</button>
+
+      <div class="grid-container">
+        <!-- Section 1: Profile Information -->
+        <div class="section profile">
+          <h2 id="name">Test User 1</h2>
+          <div class="info-box"><strong>27 Years</strong><span>Age</span></div>
+          <div class="info-box">
+            <strong>O+</strong><span>Blood Group</span>
+          </div>
+          <div class="info-box">
+            <strong>6.00 FT</strong><span>Height</span>
+          </div>
+          <div class="info-box"><strong>150</strong><span>Weight/Kg</span></div>
+        </div>
+
+        <div class="section chart" id="glucose-chart">
+          <h3>Blood Glucose Chart</h3>
+          <canvas id="glucoseCanvas"></canvas>
+        </div>
+
+        <div class="section chart" id="blood-pressure-chart">
+          <h3>Blood Pressure Chart</h3>
+          <canvas id="bloodPressureCanvas"></canvas>
+        </div>
+
+        <div class="section chart" id="activity-chart">
+          <h3>Your Activity</h3>
+          <canvas id="activityCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="healthdashboard.js"></script>
+  </body>
+</html>

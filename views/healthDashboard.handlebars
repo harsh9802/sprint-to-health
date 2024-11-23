@@ -1,0 +1,49 @@
+{{> _header}}
+
+
+<div class="dashboard-container">
+    <h1>Health Care Dashboard</h1>
+    <div class="button-container">
+        <button id="getSummary">Explain with Voice</button>
+        <button id="askQuestions">Start Interaction</button>
+    </div>
+
+
+    <div class="grid-container">
+        <!-- Section 1: Profile Information -->
+        <div class="section profile">
+            <h2 id="name">{{name}}</h2>
+            <div class="info-box"><strong>{{age}} Years</strong><span>Age</span></div>
+            <div class="info-box">
+                <strong>{{bloodGroup}}</strong><span>Blood Group</span>
+            </div>
+            <div class="info-box">
+                <strong>{{height}}</strong><span>Height</span>
+            </div>
+            <div class="info-box"><strong>{{weight}}</strong><span>Weight/Kg</span></div>
+        </div>
+
+        <!-- Blood Glucose Chart -->
+        <div class="section chart" id="glucose-chart">
+            <h3>Blood Glucose Chart</h3>
+            <canvas id="glucoseCanvas"></canvas>
+        </div>
+
+        <!-- Blood Pressure Chart -->
+        <div class="section chart" id="blood-pressure-chart">
+            <h3>Blood Pressure Chart</h3>
+            <canvas id="bloodPressureCanvas"></canvas>
+        </div>
+
+        <!-- Activity Chart -->
+        <div class="section chart" id="activity-chart">
+            <h3>Your Activity</h3>
+            <canvas id="activityCanvas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="healthdashboard.js"></script>
+
+{{> _footer}}
