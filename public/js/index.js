@@ -1,28 +1,33 @@
-import axios from "https://cdn.skypack.dev/axios";
-const signupForm = document.getElementById("signupForm");
-const loginForm = document.getElementById("loginForm");
+import { login, logout } from "./login.js";
+// import { startRecognition } from "./assistantHandler.js";
 
-const login = async function (email, password) {
-  console.log("Password: ", password);
-  try {
-    const res = await axios({
-      method: "POST",
-      url: "http://localhost:3000/api/v1/users/login",
-      data: {
-        email: email,
-        password: password,
-      },
-    });
-    console.log(res);
-  } catch (err) {
-    console.error(err.response.data);
-  }
-};
+// DOM Elements
+const loginForm = document.getElementById("loginForm");
+const logOutBtn = document.querySelector(".nav__el--logout");
+// const startRecordButton = document.getElementById("start-record-btn");
+
+// Login
 if (loginForm) {
-  loginForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Values
     const email = document.getElementById("email").value;
+    const passwordInput = document.getElementById("password");
     const password = document.getElementById("password").value;
     login(email, password);
+    passwordInput.value = "";
   });
 }
+
+// Logout
+if (logOutBtn) {
+  logOutBtn.addEventListener("click", logout);
+}
+
+// // Assistant Handler
+// if (startRecordButton) {
+//   startRecordButton.addEventListener("click", () => {
+//     startRecognition();
+//   });
+// }

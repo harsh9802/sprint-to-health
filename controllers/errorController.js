@@ -61,6 +61,7 @@ const sendErrorProduction = (err, req, res) => {
   if (err.isOperational) {
     return res.status(err.statusCode).render("error", {
       title: "Something went wrong!",
+      cssPath: "/css/error.css",
       msg: err.message,
     });
   }

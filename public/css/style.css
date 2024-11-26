@@ -175,7 +175,7 @@ body {
 /* Wrapper for centering content */
 .header__wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   position: relative;
   width: 100%;
@@ -206,7 +206,7 @@ body {
 }
 
 .nav__el:hover {
-  color: #f39c12;
+  color: #0d0c0c;
 }
 
 /* CTA buttons */
@@ -703,4 +703,89 @@ header p {
   background-color: #3e8e41;
   transform: translateY(0);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+  transition: all 0.3s ease-in-out;
+  color: #fff;
+  position: relative;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.alert--success {
+  background-color: #28a745; /* Green */
+}
+
+.alert--error {
+  background-color: #dc3545; /* Red */
+}
+
+.alert--warning {
+  background-color: #ffc107; /* Yellow */
+  color: #212529; /* Dark text for contrast */
+}
+
+.alert--info {
+  background-color: #17a2b8; /* Blue */
+}
+
+/* Add icon styles */
+.alert::before {
+  content: "⚠️"; /* Default icon, change for different types */
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+
+/* Dynamic Icons for Types */
+.alert--success::before {
+  content: "✔️";
+}
+
+.alert--error::before {
+  content: "❌";
+}
+
+.alert--warning::before {
+  content: "⚠️";
+}
+
+.alert--info::before {
+  content: "ℹ️";
+}
+
+/* Dismiss button */
+.alert::after {
+  content: "✖️";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.alert:hover::after {
+  opacity: 1;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

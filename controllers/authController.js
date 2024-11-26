@@ -6,6 +6,7 @@ import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 import Email from "../utils/email.js";
+import { showAlert } from "../public/js/alert.js";
 
 const signToken = (id) =>
   jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -112,6 +113,12 @@ export const isLoggedIn = async (req, res, next) => {
       }
 
       res.locals.user = currentUser;
+
+      if (req.originalUrl === "/login" || req.originalUrl === "/signup") {
+        res.locals.alert = "Already logged in! Redirecting to home.";
+        return res.redirect("/");
+      }
+
       return next();
     } catch (err) {
       return next();
