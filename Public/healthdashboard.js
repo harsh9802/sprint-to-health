@@ -35,7 +35,26 @@ const questions = [
     "Do you feel guilty or blame yourself for things?",
     "Have you had thoughts of hurting yourself or ending your life?",
     "Do you feel anxious or worried more than usual?",
-    // Add additional questions as needed
+    "Do you have tremors or not?",
+    "Do you often feel on edge or easily startled?",
+    "Have you noticed any physical symptoms of anxiety, like a racing heart or shortness of breath?",
+    "Do you avoid certain situations because of fear or worry?",
+    "Have you ever felt that people are plotting against you?",
+    "Do you hear or see things that others don't?",
+    "Do you ever feel that your thoughts are being controlled by outside forces?",
+    "Do you have trouble remembering recent events or conversations?",
+    "Have you noticed difficulty with tasks like managing your finances or following directions?",
+    "Do you get confused about time, such as the day of the week or time of day?",
+    "Do you ever forget where you are or how you got there?",
+    "Have you recently felt disoriented or confused about your surroundings?",
+    "Have you had any sudden changes in your awareness or ability to focus?",
+    "Have you experienced any hallucinations or vivid dreams lately?",
+    "How often do you drink alcohol, and do you feel it affects your health or well-being?",
+    "Have you used any recreational drugs or medications in ways not prescribed?",
+    "Have you had trouble controlling your use of substances, such as needing to take more to feel the same effect?",
+    "Have you ever felt that life is not worth living?",
+    "Do you have any plans or thoughts about ending your life?",
+    "Have you withdrawn from social activities or friends because of how youve been feeling?"
 ];
 
 let answeredQuestions = [];
@@ -145,7 +164,48 @@ function listAvailableVoices() {
 
 // Populate voices on page load
 listAvailableVoices();
+// document.getElementById("getSummary").addEventListener("click", async () => {
+//     screenshotTarget = document.body
 
+//     html2canvas(screenshotTarget).then(async (canvas) => {
+//         var base64image = canvas.toDataURL("image/png");
+//         const response = await fetch('/api/v1/llm/summarizeDashboard', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ dashboardImage: base64image })
+//         });
+
+//         response.json().then((summary) => {
+//             console.log(summary)
+//             console.log(summary.response)
+//             summaryJson = summary.response.replace("```json", "");
+//             summaryJson = summaryJson.replace("```", "");
+//             transcript = JSON.parse(summaryJson).transcript;
+//             console.log(transcript)
+//             speak(transcript)
+//         })
+            
+
+
+//     });
+   
+    
+// });
+document.getElementById("getSummary").addEventListener("click", async () => {
+    let age = document.getElementById("age").querySelector("strong").textContent;
+    let bloodgroup = document.getElementById("bloodgroup").querySelector("strong").textContent;
+    let height = document.getElementById("height").querySelector("strong").textContent;
+    let weight = document.getElementById("weight").querySelector("strong").textContent;
+    let is_negative="positive"
+    if (bloodgroup[1]=='-')
+    {
+        is_negative="negative"
+    }
+    // Speaking the collected information
+    speak(`Your age is ${age}, your blood group is ${bloodgroup[0]},${is_negative}, your height is ${height}, and your weight is ${weight} kilograms.`);
+})
 // Update selected voice based on dropdown choice
 document.getElementById("voiceDropdown").addEventListener("change", (event) => {
     const voices = window.speechSynthesis.getVoices();
