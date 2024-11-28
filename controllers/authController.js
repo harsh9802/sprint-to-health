@@ -6,7 +6,6 @@ import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 import Email from "../utils/email.js";
-import { showAlert } from "../public/js/alert.js";
 
 const signToken = (id) =>
   jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -39,6 +38,10 @@ export const signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    dateOfBirth: req.body.dob,
+    bloodGroup: req.body.bloodGroup,
+    weight: req.body.weight,
+    height: req.body.height,
   });
 
   createSendToken(newUser, 201, res);

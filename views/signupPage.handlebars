@@ -1,11 +1,10 @@
-{{! signupPage.hbs }}
 {{> _header }}
 
 <main class="signup-page">
     <h1 class="project-title">Sprint 2 Health</h1>
     <div class="signup-box">
         <h2>Create Your Account</h2>
-        <form id="signupForm" action="/api/v1/users/signup" method="POST">
+        <form id="signupForm">
             <!-- Name -->
             <div class="form-group">
                 <label for="name">Your Name</label>
@@ -38,18 +37,37 @@
                 <input type="date" id="dob" name="dob" required />
             </div>
 
-            <!-- Country -->
-            <select id="countryDropdown" name="country" required>
-                <option value="" disabled selected>Select your country</option>
-                {{#each countries}}
-                <option value="{{isoCode}}">{{name}}</option>
-                {{/each}}
-            </select>
+            <!-- Blood Group -->
+            <div class="form-group">
+                <label for="bloodGroup">Blood Group</label>
+                <select id="bloodGroup" name="bloodGroup" required>
+                    <option value="" disabled selected>Select your blood group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+
+            {{!-- <!-- Country -->
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select id="countryDropdown" name="country" required>
+                    <option value="" disabled selected>Select your country</option>
+                    {{#each countries}}
+                    <option value="{{isoCode}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
 
             <!-- State -->
             <div class="form-group">
                 <label for="state">State</label>
-                <input type="text" id="state" name="state" required placeholder="Enter your state">
+                <input type="text" id="state" name="state" required placeholder="Enter your state" />
             </div>
 
             <!-- City -->
@@ -63,6 +81,18 @@
                 <label for="securityQuestion">City You Were Born In</label>
                 <input type="text" id="securityQuestion" name="securityQuestion" required
                     placeholder="Enter your birth city" />
+            </div> --}}
+
+            <!-- Weight -->
+            <div class="form-group">
+                <label for="weight">Weight (Kg)</label>
+                <input type="text" id="weight" name="weight" required placeholder="Enter your weight in Kg" />
+            </div>
+
+            <!-- Height -->
+            <div class="form-group">
+                <label for="height">Height (Cm)</label>
+                <input type="text" id="height" name="height" required placeholder="Enter your height in Cm" />
             </div>
 
             <!-- Submit Button -->
@@ -71,7 +101,7 @@
 
         <!-- Login Link -->
         <div class="login-link">
-            Already have an account? <a href="login.html">Log In</a>
+            Already have an account? <a href="/login">Log In</a>
         </div>
     </div>
 </main>

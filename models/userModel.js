@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     unique: true,
+    index: { unique: true },
     lowercase: true,
     required: [true, "Email address is required"],
     validate: [validator.isEmail, "Please enter a valid email"],
@@ -63,35 +64,32 @@ const userSchema = new mongoose.Schema({
     min: [1, "Age must be at least 1"],
     max: [120, "Age must be less than or equal to 120"],
   },
-  address: {
-    city: {
-      type: String,
-      required: [true, "City is required"],
-      trim: true,
-    },
-    state: {
-      type: String,
-      required: [true, "State is required"],
-      trim: true,
-    },
-    country: {
-      type: String,
-      required: [true, "Country is required"],
-      trim: true,
-    },
+  bloodGroup: {
+    type: String,
+    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    required: [true, "Blood group is required"],
   },
-  securityQuestion: {
-    question: {
-      type: String,
-      default: "What city were you born in?",
-      immutable: true,
-    },
-    answer: {
-      type: String,
-      required: [true, "Answer to security question is required"],
-      trim: true,
-    },
+  weight: {
+    type: String,
+    required: [true, "Please enter your weight in Kg"],
   },
+  height: {
+    type: String,
+    required: [true, "Please enter your height in C.M."],
+  },
+});
+
+// Middleware to check for duplicate email and return a custom error message
+userSchema.post("save", function (error, doc, next) {
+  if (error.name === "MongoError" && error.code === 11000) {
+    // Duplicate email
+    if (error.message.includes("email")) {
+      const customError = new Error("User already exists, please login.");
+      customError.statusCode = 400; // You can adjust the status code
+      return next(customError);
+    }
+  }
+  next(error);
 });
 
 userSchema.pre("save", async function (next) {
@@ -158,6 +156,72 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
+
+// Encryption and Decryption
+// Middleware to encrypt sensitive data before saving
+userSchema.pre("save", function (next) {
+  if (this.isModified("email")) {
+    this.email = encrypt(this.email);
+  }
+
+  if (this.isModified("name")) {
+    this.name = encrypt(this.name);
+  }
+
+  if (this.isModified("dateOfBirth")) {
+    this.dateOfBirth = encrypt(this.dateOfBirth);
+  }
+
+  if (this.isModified("bloodGroup")) {
+    this.bloodGroup = encrypt(this.bloodGroup);
+  }
+
+  if (this.isModified("weight")) {
+    this.weight = encrypt(this.weight);
+  }
+
+  if (this.isModified("height")) {
+    this.height = encrypt(this.height);
+  }
+
+  next();
+});
+
+// Middleware to decrypt sensitive data after retrieving
+userSchema.post("find", function (docs) {
+  docs.forEach((doc) => {
+    if (doc.email) doc.email = decrypt(doc.email);
+    if (doc.name) doc.name = decrypt(doc.name);
+    if (doc.dateOfBirth) doc.dateOfBirth = decrypt(doc.dateOfBirth);
+    if (doc.bloodGroup) doc.bloodGroup = decrypt(doc.bloodGroup);
+    if (doc.weight) doc.weight = decrypt(doc.weight);
+    if (doc.height) doc.height = decrypt(doc.height);
+  });
+});
+
+// Middleware for `findOne` and similar queries
+userSchema.post("findOne", function (doc) {
+  if (doc) {
+    if (doc.email) doc.email = decrypt(doc.email);
+    if (doc.name) doc.name = decrypt(doc.name);
+    if (doc.dateOfBirth) doc.dateOfBirth = decrypt(doc.dateOfBirth);
+    if (doc.bloodGroup) doc.bloodGroup = decrypt(doc.bloodGroup);
+    if (doc.weight) doc.weight = decrypt(doc.weight);
+    if (doc.height) doc.height = decrypt(doc.height);
+  }
+});
+
+// Middleware for decrypting after using `findOneAndUpdate` and similar queries
+userSchema.post("findOneAndUpdate", function (doc) {
+  if (doc) {
+    if (doc.email) doc.email = decrypt(doc.email);
+    if (doc.name) doc.name = decrypt(doc.name);
+    if (doc.dateOfBirth) doc.dateOfBirth = decrypt(doc.dateOfBirth);
+    if (doc.bloodGroup) doc.bloodGroup = decrypt(doc.bloodGroup);
+    if (doc.weight) doc.weight = decrypt(doc.weight);
+    if (doc.height) doc.height = decrypt(doc.height);
+  }
+});
 
 const User = mongoose.model("User", userSchema);
 
