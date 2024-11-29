@@ -1,43 +1,58 @@
-var glucoseData = [];
-var bloodPressureData1 = [];
-var bloodPressureData2 = [];
+let glucoseData = [];
+let bloodPressureData1 = [];
+let bloodPressureData2 = [];
+let oxygenSaturationData = [];
 
-fetch("/api/v1/dashboard/getLatestVitals", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    userId: "671e74cdc48e6c37bb62b10e",
-    vital_names: [
-      "Blood Sugar Level",
-      "Systolic Blood Pressure (Upper)",
-      "Diastolic Blood Pressure (Lower)",
-    ],
-  }),
-}).then((fetchResponse) =>
-  fetchResponse.json().then((response) => {
-    var data = response.data;
+export const fetchVitals = async function (userId) {
+  try {
+    const fetchResponse = await fetch("/api/v1/vitalRecords/getLatestVitals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        vital_names: [
+          "Blood Sugar Level",
+          "Systolic Blood Pressure (Upper)",
+          "Diastolic Blood Pressure (Lower)",
+          "Oxygen Saturation",
+        ],
+      }),
+    });
+
+    const response = await fetchResponse.json();
+    const data = response.data;
+    console.log(data);
 
     glucoseData = data["Blood Sugar Level"];
     bloodPressureData1 = data["Systolic Blood Pressure (Upper)"];
     bloodPressureData2 = data["Diastolic Blood Pressure (Lower)"];
+    oxygenSaturationData = data["Oxygen Saturation"];
+
     displayCharts();
-  })
-);
+  } catch (error) {
+    console.error("Error fetching vital records:", error);
+  }
+};
 
 const glucoseCtx = document.getElementById("glucoseCanvas").getContext("2d");
 const bloodPressureCtx = document
   .getElementById("bloodPressureCanvas")
   .getContext("2d");
-const activityCtx = document.getElementById("activityCanvas").getContext("2d");
+const oxygenSaturationCtx = document
+  .getElementById("oxygenSaturationCanvas")
+  .getContext("2d");
 
 const startRecordButton = document.getElementById("askQuestions");
 const transcriptContainer = document.getElementById("transcript-container");
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
+if (!SpeechRecognition) {
+  alert("Speech recognition is not supported in this browser.");
+}
+export const recognition = new SpeechRecognition();
 recognition.lang = "en-US";
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
@@ -83,14 +98,16 @@ let userWantsToStop = false;
 let recentAskQuestion;
 
 function displayCharts() {
+  const labels = Array.from({ length: 15 }, (_, i) => i + 1); // Generate labels from 1 to 15
+
   new Chart(glucoseCtx, {
     type: "line",
     data: {
-      labels: Array.from({ length: 18 }, (_, i) => i + 1),
+      labels: labels, // Use labels from 1 to 15
       datasets: [
         {
           label: "Blood Glucose (mg/dL)",
-          data: glucoseData,
+          data: glucoseData.slice(0, 15), // Map first 15 data points
           borderColor: "rgba(54, 162, 235, 1)",
           fill: false,
         },
@@ -106,17 +123,17 @@ function displayCharts() {
   new Chart(bloodPressureCtx, {
     type: "line",
     data: {
-      labels: ["1/1", "1/2", "1/3", "1/4"],
+      labels: labels, // Use labels from 1 to 15
       datasets: [
         {
-          label: "Systolic (SBP)",
-          data: bloodPressureData1,
+          label: "Systolic Blood Pressure(mmHg)",
+          data: bloodPressureData1.slice(0, 15), // Map first 15 data points
           borderColor: "red",
           fill: false,
         },
         {
-          label: "Diastolic (DBP)",
-          data: bloodPressureData2,
+          label: "Diastolic Blood Pressure(mmHg)",
+          data: bloodPressureData2.slice(0, 15), // Map first 15 data points
           borderColor: "blue",
           fill: false,
         },
@@ -129,14 +146,14 @@ function displayCharts() {
     },
   });
 
-  new Chart(activityCtx, {
-    type: "bar",
+  new Chart(oxygenSaturationCtx, {
+    type: "line",
     data: {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      labels: labels, // Use labels from 1 to 15
       datasets: [
         {
-          label: "Active Time (%)",
-          data: [],
+          label: "Oxygen Saturation (%)",
+          data: oxygenSaturationData.slice(0, 15), // Map first 15 data points
           backgroundColor: "rgba(54, 162, 235, 0.6)",
         },
       ],
@@ -149,11 +166,11 @@ function displayCharts() {
   });
 }
 
-document.getElementById("getSummary").addEventListener("click", async () => {
-  screenshotTarget = document.body;
+export const summarizeDashboard = async () => {
+  const screenshotTarget = document.body; // Declare screenshotTarget here
 
   html2canvas(screenshotTarget).then(async (canvas) => {
-    var base64image = canvas.toDataURL("image/png");
+    var base64image = canvas.toDataURL("img/png");
     const response = await fetch("/api/v1/llm/summarizeDashboard", {
       method: "POST",
       headers: {
@@ -164,14 +181,14 @@ document.getElementById("getSummary").addEventListener("click", async () => {
 
     response.json().then((summary) => {
       console.log(summary.response);
-      summaryJson = summary.response.replace("```json", "");
+      let summaryJson = summary.response.replace("```json", "");
       summaryJson = summaryJson.replace("```", "");
-      transcript = JSON.parse(summaryJson).transcript;
+      const transcript = JSON.parse(summaryJson).transcript;
       console.log(transcript);
       speak(transcript);
     });
   });
-});
+};
 
 document.getElementById("askQuestions").addEventListener("click", () => {
   askQuestion();
@@ -224,7 +241,6 @@ async function fetchChatGPTResponse(transcript) {
     },
   });
   const data = await response.json();
-  console.log("datatata : ", data);
 
   return data.response;
 }

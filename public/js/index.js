@@ -1,13 +1,18 @@
 import { login, logout } from "./login.js";
 import { signup } from "./signup.js";
 import { showAlert } from "./alert.js";
-// import { startRecognition } from "./assistantHandler.js";
+import {
+  fetchVitals,
+  summarizeDashboard,
+  recognition,
+} from "./healthdashboard.js";
 
 // DOM Elements
 const loginForm = document.getElementById("loginForm");
 const logOutBtn = document.querySelector(".nav__el--logout");
 const signUpForm = document.getElementById("signupForm");
-// const startRecordButton = document.getElementById("start-record-btn");
+const dashboardContainer = document.querySelector(".dashboard-container");
+const startRecordButton = document.getElementById("askQuestions");
 
 // Login
 if (loginForm) {
@@ -18,6 +23,7 @@ if (loginForm) {
     const email = document.getElementById("email").value;
     const passwordInput = document.getElementById("password");
     const password = document.getElementById("password").value;
+    console.log(email);
     login(email, password);
     passwordInput.value = "";
   });
@@ -51,9 +57,13 @@ if (signUpForm) {
   });
 }
 
-// // Assistant Handler
-// if (startRecordButton) {
-//   startRecordButton.addEventListener("click", () => {
-//     startRecognition();
-//   });
-// }
+// Healthd Dashboard Clien-side Handler
+if (dashboardContainer) {
+  const userId = document.getElementById("userId").value;
+  const explainWithVoiceButton = document.getElementById("getSummary");
+  fetchVitals(userId);
+  explainWithVoiceButton.addEventListener("click", summarizeDashboard);
+  startRecordButton.addEventListener("click", () => {
+    recognition.start();
+  });
+}

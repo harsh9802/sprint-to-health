@@ -250,15 +250,6 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
         $sort: { timestamp: -1 }, // Sort records by timestamp in descending order
       },
       {
-        $group: {
-          _id: "$vital_id", // Group by vital_id
-          latestRecord: { $first: "$$ROOT" }, // Select the latest document in each group
-        },
-      },
-      {
-        $replaceRoot: { newRoot: "$latestRecord" }, // Replace root with the latest record
-      },
-      {
         $lookup: {
           // Join with the vitals collection to get vital details
           from: "vitals",
@@ -271,6 +262,7 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
         $unwind: "$vitalDetails", // Flatten the array from $lookup
       },
     ]);
+
     // Decrypt sensitive fields in vitals details after the aggregation
     docs.forEach((doc) => {
       if (doc.vitalDetails) {

@@ -55,6 +55,10 @@ app.engine(
     defaultLayout: "main",
     layoutsDir: __rootDir + "/views/layouts",
     partialsDir: __rootDir + "/views/partials",
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    },
   })
 );
 app.set("view engine", "handlebars");

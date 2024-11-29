@@ -8,19 +8,18 @@
         <button id="askQuestions">Start Interaction</button>
     </div>
 
-
     <div class="grid-container">
         <!-- Section 1: Profile Information -->
         <div class="section profile">
-            <h2 id="name">{{name}}</h2>
-            <div class="info-box"><strong>{{age}} Years</strong><span>Age</span></div>
+            <h2 id="name">{{user.name}}</h2>
+            <div class="info-box"><strong>{{user.age}}</strong><span>Age</span></div>
             <div class="info-box">
-                <strong>{{bloodGroup}}</strong><span>Blood Group</span>
+                <strong>{{user.bloodGroup}}</strong><span>Blood Group</span>
             </div>
             <div class="info-box">
-                <strong>{{height}}</strong><span>Height</span>
+                <strong>{{user.height}}</strong><span>Height</span>
             </div>
-            <div class="info-box"><strong>{{weight}}</strong><span>Weight/Kg</span></div>
+            <div class="info-box"><strong>{{user.weight}}</strong><span>Weight/Kg</span></div>
         </div>
 
         <!-- Blood Glucose Chart -->
@@ -36,13 +35,17 @@
         </div>
 
         <!-- Activity Chart -->
-        <div class="section chart" id="activity-chart">
-            <h3>Your Activity</h3>
-            <canvas id="activityCanvas"></canvas>
+        <div class="section chart" id="oxygen-saturation-chart">
+            <h3>Oxygen Saturation Chart</h3>
+            <canvas id="oxygenSaturationCanvas"></canvas>
         </div>
     </div>
+    <!-- Hidden field for user._id -->
+    <input type="hidden" id="userId" value="{{user._id}}">
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@0.4.1/dist/html2canvas.min.js"></script>
+
 
 {{> _footer}}
