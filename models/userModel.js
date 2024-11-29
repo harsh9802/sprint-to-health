@@ -2,6 +2,7 @@ import crypto from "crypto";
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
+import { encrypt, decrypt } from "../utils/encryption.js";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -189,14 +190,24 @@ userSchema.pre("save", function (next) {
 
 // Middleware to decrypt sensitive data after retrieving
 userSchema.post("find", function (docs) {
-  docs.forEach((doc) => {
-    if (doc.email) doc.email = decrypt(doc.email);
-    if (doc.name) doc.name = decrypt(doc.name);
-    if (doc.dateOfBirth) doc.dateOfBirth = decrypt(doc.dateOfBirth);
-    if (doc.bloodGroup) doc.bloodGroup = decrypt(doc.bloodGroup);
-    if (doc.weight) doc.weight = decrypt(doc.weight);
-    if (doc.height) doc.height = decrypt(doc.height);
-  });
+  if (Array.isArray(docs)) {
+    docs.forEach((doc) => {
+      if (doc.email) doc.email = decrypt(doc.email);
+      if (doc.name) doc.name = decrypt(doc.name);
+      if (doc.dateOfBirth) doc.dateOfBirth = decrypt(doc.dateOfBirth);
+      if (doc.bloodGroup) doc.bloodGroup = decrypt(doc.bloodGroup);
+      if (doc.weight) doc.weight = decrypt(doc.weight);
+      if (doc.height) doc.height = decrypt(doc.height);
+    });
+  } else if (docs) {
+    // Handle a single document
+    if (docs.email) docs.email = decrypt(docs.email);
+    if (docs.name) docs.name = decrypt(docs.name);
+    if (docs.dateOfBirth) docs.dateOfBirth = decrypt(docs.dateOfBirth);
+    if (docs.bloodGroup) docs.bloodGroup = decrypt(docs.bloodGroup);
+    if (docs.weight) docs.weight = decrypt(docs.weight);
+    if (docs.height) docs.height = decrypt(docs.height);
+  }
 });
 
 // Middleware for `findOne` and similar queries

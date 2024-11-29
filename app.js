@@ -64,7 +64,7 @@ app.use("/", viewRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/interactions", interactionsRouter);
 app.use("/api/v1/llm", llmRouter);
-app.use("/api/v1/voice-assistant", dashboardRouter);
+app.use("/api/v1/vitalRecords", dashboardRouter);
 app.use("/api/v1/vitals", vitalsRouter);
 app.use("/api/v1/appointment", appointmentRouter);
 

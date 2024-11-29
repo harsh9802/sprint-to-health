@@ -6,6 +6,7 @@ import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 import Email from "../utils/email.js";
+import { encrypt } from "../utils/encryption.js";
 
 const signToken = (id) =>
   jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -53,7 +54,10 @@ export const login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError("Please provide email and password", 400));
   }
-  const user = await User.findOne({ email: email }).select("+password");
+  const encryptedEmail = encrypt(email);
+  const user = await User.findOne({ email: encryptedEmail }).select(
+    "+password"
+  );
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
@@ -95,6 +99,7 @@ export const protect = catchAsync(async (req, res, next) => {
       new AppError("User recently changed password! Please login again.", 401)
     );
   }
+
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
@@ -143,7 +148,8 @@ export const restrictTo =
   };
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const encryptedEmail = encrypt(req.body.email);
+  const user = await User.findOne({ email: encryptedEmail });
   if (!user) {
     return next(new AppError("There is no user with that email address.", 404));
   }

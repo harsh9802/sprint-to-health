@@ -5,7 +5,7 @@ import * as authController from "../controllers/authController.js";
 const router = express.Router();
 
 // Protect all routes for logged-in users only
-// router.use(authController.protect);
+router.use(authController.protect);
 
 // Dashboard routes
 
@@ -25,8 +25,10 @@ router.get(
 // Get all latest vital records for the logged-in user
 router.get("/allMyVitals", vitalsRecordsController.getAllLatestVitalsRecords);
 
-
-router.post("/getLatestVitals", vitalsRecordsController.getVitalsValuesForLast24Hours);
+router.post(
+  "/getLatestVitals",
+  vitalsRecordsController.getVitalsValuesForLast24Hours
+);
 
 // Middleware to restrict the following methods to admins only
 router.use(authController.restrictTo("admin"));

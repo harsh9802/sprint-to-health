@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import { encrypt, decrypt } from "../utils/encryption.js"; // Assuming you have these utility functions
 
 const appointmentSchema = new mongoose.Schema({
   doctorName: {
     type: String,
-    required: [true, "Doctor name is required"], // Ensure doctor name is provided
-    minlength: [3, "Doctor name must be at least 3 characters long"], // Min length of 3
-    maxlength: [100, "Doctor name must be less than 100 characters"], // Max length of 100
+    required: [true, "Doctor name is required"],
+    minlength: [3, "Doctor name must be at least 3 characters long"],
+    maxlength: [100, "Doctor name must be less than 100 characters"],
   },
   patient: {
     type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +18,7 @@ const appointmentSchema = new mongoose.Schema({
     trim: true,
     validate: {
       validator: function (val) {
-        return /^[a-zA-Z\s]+$/.test(val); // Allow only alphabetic characters and spaces
+        return /^[a-zA-Z\s]+$/.test(val);
       },
       message:
         "Patient name must only contain alphabetic characters and spaces",
@@ -26,9 +27,7 @@ const appointmentSchema = new mongoose.Schema({
   appointmentDate: {
     type: Date,
     required: true,
-    // If there's custom date handling logic, ensure it's correctly parsing the date
     set: function (value) {
-      // Ensure we return a proper Date object
       if (typeof value === "string") {
         return new Date(value);
       }
@@ -37,13 +36,13 @@ const appointmentSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: [true, "Location is required"], // Ensure location is provided
-    minlength: [3, "Location must be at least 3 characters long"], // Min length of 3
-    maxlength: [255, "Location must be less than 255 characters"], // Max length of 255
+    required: [true, "Location is required"],
+    minlength: [3, "Location must be at least 3 characters long"],
+    maxlength: [255, "Location must be less than 255 characters"],
   },
   specialization: {
     type: String,
-    required: [true, "Specialization is required"], // Ensure specialization is provided
+    required: [true, "Specialization is required"],
     enum: {
       values: [
         "Cardiology",
@@ -51,15 +50,15 @@ const appointmentSchema = new mongoose.Schema({
         "Neurology",
         "Orthopedics",
         "Pediatrics",
-      ], // Limit possible values
+      ],
       message: "{VALUE} is not a valid specialization",
     },
   },
   appointmentType: {
     type: String,
-    required: [true, "Appointment type is required"], // Ensure appointment type is provided
+    required: [true, "Appointment type is required"],
     enum: {
-      values: ["In-person", "Virtual"], // Limit appointment type to these two options
+      values: ["In-person", "Virtual"],
       message: "{VALUE} is not a valid appointment type",
     },
   },
@@ -74,12 +73,90 @@ appointmentSchema.pre("save", async function (next) {
   if (this.patient) {
     const user = await mongoose.model("User").findById(this.patient);
     if (user) {
-      this.patientName = user.name; // Ensure that patientName is set from the User model
+      this.patientName = user.name;
     } else {
       return next(new AppError("Patient not found", 404));
     }
   }
   next();
+});
+
+// Pre-save hook to encrypt sensitive fields
+appointmentSchema.pre("save", function (next) {
+  if (this.doctorName) {
+    this.doctorName = encrypt(this.doctorName);
+  }
+  if (this.patientName) {
+    this.patientName = encrypt(this.patientName);
+  }
+  if (this.location) {
+    this.location = encrypt(this.location);
+  }
+  next();
+});
+
+// Pre-find hook to decrypt sensitive fields after retrieval
+appointmentSchema.post("find", function (docs) {
+  docs.forEach((doc) => {
+    if (doc.doctorName) {
+      doc.doctorName = decrypt(doc.doctorName);
+    }
+    if (doc.patientName) {
+      doc.patientName = decrypt(doc.patientName);
+    }
+    if (doc.location) {
+      doc.location = decrypt(doc.location);
+    }
+  });
+});
+
+// Pre-findOne hook to decrypt sensitive fields after retrieval
+appointmentSchema.post("findOne", function (doc) {
+  if (doc) {
+    if (doc.doctorName) {
+      doc.doctorName = decrypt(doc.doctorName);
+    }
+    if (doc.patientName) {
+      doc.patientName = decrypt(doc.patientName);
+    }
+    if (doc.location) {
+      doc.location = decrypt(doc.location);
+    }
+  }
+});
+
+// Pre-findOneAndUpdate hook to encrypt updated sensitive fields
+appointmentSchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate();
+
+  if (update && update.$set) {
+    if (update.$set.doctorName) {
+      update.$set.doctorName = encrypt(update.$set.doctorName);
+    }
+    if (update.$set.patientName) {
+      update.$set.patientName = encrypt(update.$set.patientName);
+    }
+    if (update.$set.location) {
+      update.$set.location = encrypt(update.$set.location);
+    }
+  }
+
+  next();
+});
+
+// Post-findOneAndUpdate hook to decrypt sensitive fields
+appointmentSchema.post("findOneAndUpdate", function (doc) {
+  if (doc) {
+    if (doc.doctorName) {
+      doc.doctorName = decrypt(doc.doctorName);
+    }
+    if (doc.patientName) {
+      doc.patientName = decrypt(doc.patientName);
+    }
+    if (doc.location) {
+      doc.location = decrypt(doc.location);
+    }
+  }
 });
 
 const Appointment = mongoose.model("Appointment", appointmentSchema);
