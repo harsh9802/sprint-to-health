@@ -25,8 +25,6 @@ const createSendToken = (user, statusCode, res) => {
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("jwt", token, cookieOptions);
   user.password = undefined;
-  res.redirect('/home'); // Added to redirect from  login to home or dashboard page. 14th Nov 2024
-
   res.status(statusCode).json({
     status: "success",
     token,
@@ -63,8 +61,6 @@ export const login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
-
-
   createSendToken(user, 200, res);
 });
 
