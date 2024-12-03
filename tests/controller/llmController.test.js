@@ -1,13 +1,17 @@
 import { getSummaryFromDashboard } from "../../controllers/llmController";
 import { jest } from "@jest/globals";
 
+const endpoint = "https://api.openai.com/v1/chat/completions";
+
 describe("generateSummary", () => {
   beforeEach(() => {
     global.fetch = jest.fn();
+    process.env.OPENAI_API_ENDPOINT = endpoint;
   });
 
   afterEach(() => {
     jest.resetAllMocks();
+    delete process.env.OPENAI_API_ENDPOINT;
   });
 
   it("should return a summary based on dashboard image", async () => {
@@ -41,7 +45,7 @@ describe("generateSummary", () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
-      "https://api.openai.com/v1/chat/completions",
+      endpoint,
       expect.any(Object)
     );
     expect(res.status).toHaveBeenCalledWith(200);
