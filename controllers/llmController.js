@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import axios from "axios";
-// import fs from "fs";
+
 dotenv.config({ path: "./config.env" }); // Load environment variables
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
