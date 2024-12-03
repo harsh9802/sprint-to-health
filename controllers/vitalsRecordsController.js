@@ -1,4 +1,5 @@
 import mongoose, { Types } from "mongoose"; // Import ObjectId
+import { encrypt, decrypt } from "../utils/encryption.js";
 import VitalsRecord from "../models/vitalsRecordsModel.js";
 import Vital from "../models/vitalsModel.js";
 import * as factory from "./handleFactory.js";
@@ -6,7 +7,9 @@ import catchAsync from "../utils/catchAsync.js";
 
 // Create new vital - requires the name of the vital for which record is to be created
 export const createVitalsRecord = catchAsync(async (req, res, next) => {
-  const records = req.body; // Assume `req.body` is an array of records
+  const records = req.body;
+  console.log("req.user", req.user);
+
   const userId = req.user.id;
 
   // Check that the body contains an array
@@ -23,8 +26,6 @@ export const createVitalsRecord = catchAsync(async (req, res, next) => {
   for (const record of records) {
     const { vital, value } = record;
 
-    console.log(records);
-
     // Validate the vital name
     if (!vital || typeof vital !== "string") {
       return res.status(400).json({
@@ -34,9 +35,10 @@ export const createVitalsRecord = catchAsync(async (req, res, next) => {
     }
 
     const trimmedName = vital.trim();
+    const encryptedName = encrypt(trimmedName);
 
     // Find the vital ID based on the trimmed name
-    const foundVital = await Vital.findOne({ name: trimmedName });
+    const foundVital = await Vital.findOne({ name: encryptedName });
     if (!foundVital) {
       return res.status(400).json({
         status: "fail",
@@ -81,12 +83,16 @@ export const getVitalsValuesForLast24Hours = catchAsync(
       });
     }
 
+    let vitalNamesEncrypted = vital_names.map((vitalName) => {
+      return encrypt(vitalName);
+    });
+
     // Convert userId to a mongoose ObjectId
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
     // Find vital IDs that match the provided names
     const vitalRecords = await Vital.find({
-      name: { $in: vital_names },
+      name: { $in: vitalNamesEncrypted },
     }).select("_id name");
 
     if (!vitalRecords.length) {
@@ -97,6 +103,7 @@ export const getVitalsValuesForLast24Hours = catchAsync(
     }
 
     const vitalIds = vitalRecords.map((vital) => vital._id);
+
     const vitalNameMap = vitalRecords.reduce((acc, vital) => {
       acc[vital._id.toString()] = vital.name; // Map vital ID to its name
       return acc;
@@ -125,12 +132,16 @@ export const getVitalsValuesForLast24Hours = catchAsync(
       },
     ]);
 
-    console.log(docs);
-
     // Transform the result into the desired format
     const result = docs.reduce((acc, doc) => {
       const vitalName = vitalNameMap[doc._id.toString()];
-      acc[vitalName] = doc.values; // Map vital name to its array of values
+
+      // Decrypt each value in the 'values' array
+      const decryptedValues = doc.values.map((encryptedValue) =>
+        decrypt(encryptedValue)
+      );
+
+      acc[vitalName] = decryptedValues; // Map decrypted vital name to its array of decrypted values
       return acc;
     }, {});
 
@@ -175,6 +186,18 @@ export const getAllLatestVitalsRecords = catchAsync(async (req, res, next) => {
     },
   ]);
 
+  // Decrypt sensitive fields in vitals details after the aggregation
+  docs.forEach((doc) => {
+    if (doc.vitalDetails) {
+      doc.vitalDetails.name = decrypt(doc.vitalDetails.name); // Decrypt sensitive fields like name
+      doc.vitalDetails.unit = decrypt(doc.vitalDetails.unit); // Decrypt unit field if necessary
+      doc.vitalDetails.description = decrypt(doc.vitalDetails.description); // Decrypt description if necessary
+    }
+    if (doc.value) {
+      doc.value = parseFloat(decrypt(doc.value)); // Decrypt and convert back to a number for value
+    }
+  });
+
   res.status(200).json({
     status: "success",
     results: docs.length,
@@ -197,10 +220,14 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
       });
     }
 
+    let vitalNamesEncrypted = vital_names.map((vitalName) => {
+      return encrypt(vitalName);
+    });
+
     // Step 1: Find all vital IDs that match the provided vital names
-    const vitalIds = await Vital.find({ name: { $in: vital_names } }).select(
-      "_id"
-    );
+    const vitalIds = await Vital.find({
+      name: { $in: vitalNamesEncrypted },
+    }).select("_id");
 
     if (!vitalIds.length) {
       return res.status(404).json({
@@ -223,15 +250,6 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
         $sort: { timestamp: -1 }, // Sort records by timestamp in descending order
       },
       {
-        $group: {
-          _id: "$vital_id", // Group by vital_id
-          latestRecord: { $first: "$$ROOT" }, // Select the latest document in each group
-        },
-      },
-      {
-        $replaceRoot: { newRoot: "$latestRecord" }, // Replace root with the latest record
-      },
-      {
         $lookup: {
           // Join with the vitals collection to get vital details
           from: "vitals",
@@ -244,6 +262,18 @@ export const getLatestVitalsRecordsForVitals = catchAsync(
         $unwind: "$vitalDetails", // Flatten the array from $lookup
       },
     ]);
+
+    // Decrypt sensitive fields in vitals details after the aggregation
+    docs.forEach((doc) => {
+      if (doc.vitalDetails) {
+        doc.vitalDetails.name = decrypt(doc.vitalDetails.name); // Decrypt sensitive fields like name
+        doc.vitalDetails.unit = decrypt(doc.vitalDetails.unit); // Decrypt unit field if necessary
+        doc.vitalDetails.description = decrypt(doc.vitalDetails.description); // Decrypt description if necessary
+      }
+      if (doc.value) {
+        doc.value = parseFloat(decrypt(doc.value)); // Decrypt and convert back to a number for value
+      }
+    });
 
     res.status(200).json({
       status: "success",

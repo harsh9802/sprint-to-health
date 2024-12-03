@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Sprint 2 Health</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      header {
+        background-color: #0078d7;
+        color: white;
+        padding: 1em 0;
+        text-align: center;
+      }
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 1em;
+      }
+      .button-group {
+        margin-top: 1.5em;
+      }
+      button {
+        background-color: #0078d7;
+        color: white;
+        border: none;
+        padding: 0.75em 1.5em;
+        margin: 0.5em;
+        font-size: 1em;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #005bb5;
+      }
+      #transcript-container {
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 1em;
+        margin-top: 1em;
+        border-radius: 5px;
+      }
+      .tips,
+      .contact {
+        margin-top: 2em;
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 1em;
+        border-radius: 5px;
+      }
+      footer {
+        background: #0078d7;
+        color: white;
+        text-align: center;
+        padding: 1em 0;
+        margin-top: 2em;
+      }
+      .large-text {
+        font-size: 1.25em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>ChatGPT Voice Assistant</h1>
+      <p>Your friendly companion for health-related queries</p>
+    </header>
+
+    <div class="container">
+      <section>
+        <h2>Get Started</h2>
+        <p class="large-text">
+          Use the buttons below to interact with your assistant.
+        </p>
+        <div class="button-group">
+          <button id="start-record-btn">🎙️ Start Recording</button>
+          <button id="speak-up">🔊 Hear Response</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Your Conversations</h2>
+        <div id="transcript-container">
+          <p>No conversations yet. Start by clicking "Start Recording".</p>
+        </div>
+      </section>
+
+      <section class="tips">
+        <h2>Daily Health Tips</h2>
+        <ul>
+          <li>
+            🚶 Stay active: Aim for at least 30 minutes of light exercise daily.
+          </li>
+          <li>🍎 Eat balanced meals with plenty of fruits and vegetables.</li>
+          <li>💧 Stay hydrated: Drink 6-8 glasses of water a day.</li>
+          <li>😴 Get enough sleep: Aim for 7-8 hours every night.</li>
+        </ul>
+      </section>
+
+      <section class="contact">
+        <h2>Need Help?</h2>
+        <p>
+          If you have any questions, call our support team at
+          <strong>1-800-555-HEALTH</strong> or email us at
+          <a href="mailto:support@sprint2health.com"
+            >support@sprint2health.com</a
+          >.
+        </p>
+      </section>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Sprint 2 Health. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="assistantHandler.js"></script>
+  </body>
+</html>
