@@ -26,11 +26,7 @@ router.get(
   "/voice-assistant",
   authController.isLoggedIn,
   authController.protect,
-  (req, res) => {
-    res.render("voice-assistant", {
-      title: "Sprint2Health Voice Assistant",
-    });
-  }
+  viewsController.getVoiceAssistant
 );
 
 router.get(

@@ -64,3 +64,10 @@ export const getAppointmentDashboard = catchAsync(async (req, res, next) => {
     additionalJs: "/js/appointmentDashboard.js",
   });
 });
+
+export const getVoiceAssistant = (req, res) => {
+  res.render("voice-assistant", {
+    title: "Sprint2Health Voice Assistant",
+    additionalJs: "/js/assistantHandler.js",
+  });
+};
