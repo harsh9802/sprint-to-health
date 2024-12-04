@@ -40,4 +40,11 @@ router.get(
   authController.protect,
   viewsController.getHealthDashboard
 );
+
+router.get(
+  "/appointment-dashboard",
+  authController.isLoggedIn,
+  authController.protect,
+  viewsController.getAppointmentDashboard
+);
 export default router;

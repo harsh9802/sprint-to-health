@@ -1,0 +1,135 @@
+/* General body styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Section styling */
+.home-section {
+  padding: 20px;
+}
+
+/* Table styling */
+#appointments-table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+#appointments-table thead {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+#appointments-table th,
+#appointments-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#appointments-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#appointments-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+/* Form styling */
+form {
+  width: 60%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+form input[type="text"],
+form input[type="date"],
+form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+form button {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Back button styling */
+a .button {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+a .button:hover {
+  background-color: #218838;
+}
+
+/* Center alignment for headings */
+h2 {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  form {
+    width: 90%;
+  }
+
+  #appointments-table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  form input[type="text"],
+  form input[type="date"],
+  form select {
+    font-size: 13px;
+  }
+
+  form button {
+    font-size: 14px;
+  }
+}

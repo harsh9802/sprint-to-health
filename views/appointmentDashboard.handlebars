@@ -1,0 +1,89 @@
+{{> _header}}
+
+<body>
+    <section id="appointment-dashboard" class="home-section">
+        <div class="home-content">
+            <i class='bx bx-menu'></i>
+        </div>
+
+        <!-- Upcoming Appointments Table -->
+        <center>
+            <br>
+            <h2>Upcoming Appointments</h2>
+            <table id="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Doctor Name</th>
+                        <th>Appointment Date</th>
+                        <th>Location</th>
+                        <th>Specialization</th>
+                        <th>Appointment Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each appointments}}
+                    <tr>
+                        <td>{{this.doctorName}}</td>
+                        <td>{{this.appointmentDate}}</td>
+                        <td>{{this.location}}</td>
+                        <td>{{this.specialization}}</td>
+                        <td>{{this.appointmentType}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <br>
+            <a href="/health-dashboard">
+                <button type="button" class="button">Back</button>
+            </a>
+            <br>&nbsp;
+        </center>
+
+        <!-- Add New Appointment Form -->
+        <center>
+            <br>
+            <h2>Add New Appointment</h2>
+            <form id="appointment-form">
+                <div>
+                    <label for="doctorName">Doctor Name:</label>
+                    <input type="text" id="doctorName" name="doctorName" required />
+                </div>
+                <br>
+                <div>
+                    <label for="appointmentDate">Appointment Date:</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required />
+                </div>
+                <br>
+                <div>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" required />
+                </div>
+                <br>
+                <div>
+                    <label for="specialization">Specialization:</label>
+                    <select id="specialization" name="specialization" required>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label for="appointmentType">Appointment Type:</label>
+                    <select id="appointmentType" name="appointmentType" required>
+                        <option value="In-person">In-person</option>
+                        <option value="Virtual">Virtual</option>
+                    </select>
+                </div>
+                <br>
+                <button type="submit">Add Appointment</button>
+            </form>
+            <br>
+        </center>
+    </section>
+</body>
+
+{{> _footer}}

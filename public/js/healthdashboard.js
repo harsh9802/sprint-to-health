@@ -284,3 +284,18 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   window.speechSynthesis.speak(utterance);
 }
+
+const dashboardContainer = document.querySelector(
+  ".health-dashboard-container"
+);
+// Healthd Dashboard Clien-side Handler
+if (dashboardContainer) {
+  const userId = document.getElementById("userId").value;
+  const explainWithVoiceButton = document.getElementById("getSummary");
+  console.log("userId", userId);
+  fetchVitals(userId);
+  explainWithVoiceButton.addEventListener("click", summarizeDashboard);
+  startRecordButton.addEventListener("click", () => {
+    recognition.start();
+  });
+}
