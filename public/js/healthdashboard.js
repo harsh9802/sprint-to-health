@@ -23,14 +23,19 @@ export const fetchVitals = async function (userId) {
 
     const response = await fetchResponse.json();
     const data = response.data;
-    console.log(data);
 
-    glucoseData = data["Blood Sugar Level"];
-    bloodPressureData1 = data["Systolic Blood Pressure (Upper)"];
-    bloodPressureData2 = data["Diastolic Blood Pressure (Lower)"];
-    oxygenSaturationData = data["Oxygen Saturation"];
+    console.log("Fetched data:", Object.keys(data));
+    if (Object.keys(data).length === 0) {
+      console.error("API did not return vital data.");
+      return;
+    } else {
+      glucoseData = data["Blood Sugar Level"] || [];
+      bloodPressureData1 = data["Systolic Blood Pressure (Upper)"] || [];
+      bloodPressureData2 = data["Diastolic Blood Pressure (Lower)"] || [];
+      oxygenSaturationData = data["Oxygen Saturation"] || [];
 
-    displayCharts();
+      displayCharts();
+    }
   } catch (error) {
     console.error("Error fetching vital records:", error);
   }
@@ -288,14 +293,10 @@ function speak(text) {
 const dashboardContainer = document.querySelector(
   ".health-dashboard-container"
 );
+
 // Healthd Dashboard Clien-side Handler
 if (dashboardContainer) {
   const userId = document.getElementById("userId").value;
   const explainWithVoiceButton = document.getElementById("getSummary");
-  console.log("userId", userId);
   fetchVitals(userId);
-  explainWithVoiceButton.addEventListener("click", summarizeDashboard);
-  startRecordButton.addEventListener("click", () => {
-    recognition.start();
-  });
 }

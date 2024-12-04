@@ -1,7 +1,5 @@
-import * as appointmentController from "../controllers/appointmentController.js";
 import Appointment from "../models/appointmentModel.js";
 import catchAsync from "../utils/catchAsync.js";
-import User from "../models/userModel.js";
 
 const calculateAge = (dob) => {
   const birthDate = new Date(dob);
@@ -33,7 +31,7 @@ export const getHealthDashboard = (req, res) => {
     title: "Health Dashboard",
     user: res.locals.user,
     additionalJs: "/js/healthDashboard.js",
-    cssPath: "/css/style.css",
+    cssPath: "/css/healthdashboard.css",
   });
 };
 

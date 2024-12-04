@@ -17,9 +17,10 @@
     {{{body}}}
 
     {{#if additionalJs}}
-    <script type="module" src="{{additionalJs}}"></script> <!-- Set type="module" -->
+    <script type="module" src="{{additionalJs}}"></script>
+    <script type="module" src="/js/index.js"></script>
     {{else}}
-    <script type="module" src="/js/default.js"></script> <!-- Default script -->
+    <script type="module" src="/js/index.js"></script>
     {{/if}}
 </body>
 

@@ -2,7 +2,6 @@ import express from "express";
 import { Country } from "country-state-city";
 import * as authController from "../controllers/authController.js";
 import * as viewsController from "../controllers/viewsController.js";
-import User from "../models/userModel.js";
 
 const router = express.Router();
 router.get("/", authController.isLoggedIn, (req, res) => {
@@ -21,6 +20,7 @@ router.get("/signup", (req, res) => {
 });
 
 router.get("/login", authController.isLoggedIn, viewsController.getLoginForm);
+router.get("/logout", authController.isLoggedIn);
 
 router.get(
   "/voice-assistant",
@@ -30,7 +30,6 @@ router.get(
     res.render("voice-assistant", {
       title: "Sprint2Health Voice Assistant",
     });
-    console.log("user", req.user);
   }
 );
 

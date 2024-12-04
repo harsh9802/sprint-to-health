@@ -1,7 +1,6 @@
 const appointmentDashboard = document.getElementById("appointment-dashboard");
 
 if (appointmentDashboard) {
-  alert("hello");
   document
     .querySelector("#appointment-form")
     .addEventListener("submit", async function (event) {

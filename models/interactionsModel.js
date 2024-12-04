@@ -4,7 +4,7 @@ import { encrypt, decrypt } from "../utils/encryption.js";
 const interactionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Mongoose will use the User model registered in the project
+    ref: "User",
     required: true,
   },
   content: {
@@ -20,7 +20,7 @@ const interactionSchema = new mongoose.Schema({
   type: {
     type: String,
     required: [true, "The type is required."],
-    trim: true, 
+    trim: true,
   },
 
   timestamp: {
