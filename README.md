@@ -18,9 +18,23 @@ run 'npm start' to run the code and open a URL http://localhost:3000
 
 
 # Overview
+The objective of this project is to build a health-centric voice assistant that simplifies health management through voice commands. The core idea is to enable users to manage their health easily by interacting with the assistant, which responds to health-related queries and provides essential information. The technology stack includes Node.js, JavaScript, ChatGPT API, Mongoose, Handlebars, CSS, and HTML, which work together to create a seamless user experience. It is structured over four sprints, each lasting two weeks, ensuring incremental progress and continuous feedback.
+
 # Project Purpose
+
+The purpose of this project is to create an intuitive, health-focused voice assistant that helps users manage their health through voice commands. It aims to provide easy access to vital health information and reminders, enhancing convenience and support for users, especially the elderly.
+
 # Agile Methodology
+This project follows the The project follows an Agile approach, utilizing Scrum and Kanban methodologies for efficient development, with the team working in four-week sprints. Each sprint is dedicated to developing a set of features, reviewing progress, and adapting based on client feedback.
+
 # Key Agile Practices Implemented:
+- **User Stories**: Each feature is developed based on user stories focusing on the needs of healthcare providers and patients.
+- **Iterative Development**: Feature Voice Assistant,Health Dashboard, Appointment and Medicine Alerts, Communication Logs Dashboard and Data Security with Encryption. 
+- **Daily Standups**: The team meets weekly to discuss progress and identify blockers.
+- **Sprint Reviews**: At the end of each sprint, the team demonstrates completed features and receives feedback from client.
+- **Backlog Grooming**: The product backlog is regularly updated to reflect changes in priorities.
+
+
 # Getting Started
 ## Prerequisites
 ## Installation
