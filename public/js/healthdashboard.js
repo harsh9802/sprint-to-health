@@ -24,7 +24,6 @@ export const fetchVitals = async function (userId, chart3, chart3Unit) {
     const response = await fetchResponse.json();
     const data = response.data;
 
-    console.log("Fetched data:", Object.keys(data));
     if (Object.keys(data).length === 0) {
       console.error("API did not return vital data.");
       return;
@@ -288,7 +287,7 @@ recognition.onresult = async (event) => {
     speak(chatGPTResponse);
   }
 
-  // askQuestion();
+  askQuestion();
 };
 
 recognition.onerror = (event) => {
@@ -310,9 +309,6 @@ const dashboardContainer = document.querySelector(
 if (dashboardContainer) {
   const userId = document.getElementById("userId").value;
   const explainWithVoiceButton = document.getElementById("getSummary");
-  explainWithVoiceButton.addEventListener("click", () => {
-    summarizeDashboard()
-  });
 
   const addVitalBtn = document.getElementById("addVitalBtn");
   const addVitalForm = document.getElementById("addVitalForm");
@@ -400,7 +396,6 @@ if (dashboardContainer) {
         },
         body: JSON.stringify([{ vital: vitalName, value: vitalValue }]),
       });
-      console.log("response", response);
 
       if (response.ok) {
         alert(`${vitalName} added successfully!`);
