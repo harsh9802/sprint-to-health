@@ -38,7 +38,40 @@ This project follows the The project follows an Agile approach, utilizing Scrum 
 # Getting Started
 ## Prerequisites
 ## Installation
-# Features
+# Features :
+## Key Features:
+1. Voice Assistant​
+ Interacts with the user via a fine-tuned LLM for health-related queries.​
+ Provides accurate responses in a configurable voice.​
+
+2. Health Dashboard:​
+ Displays vital health information.​
+ Offers voice output summarizing daily health status.​
+ Proactively asks follow-up questions based on user health data.​
+
+3. Appointment and Medicine Alerts:​
+ Notifications for upcoming appointments and medicine.​
+ Users can manage appointments via a dedicated dashboard.​
+
+4. Communication Logs Dashboard:​
+ Records all voice interactions securely.​
+ Allows users, doctors, and relatives to analyze past communications.​
+
+5. Data Security with Encryption:​
+ Implements robust encryption mechanisms.​
+ Ensures HIPAA-compliant protection for sensitive health data.​
+
+## Extra Features
+Doctor Portal: Analyze patient data and manage appointments.​
+
+​Personalized Care: Tailor responses using medical history and interactions.​
+
+​Emergency Alerts: Notify contacts via continuous health monitoring.​
+
+IoT Integration: Access health vitals from smart devices.​
+
+Multilingual Support: Connect with diverse audiences.​
+
 # Project Roadmap
 ## Sprint 1:
 ## Sprint 2:
@@ -47,4 +80,9 @@ This project follows the The project follows an Agile approach, utilizing Scrum 
 
 # Team Members
 
-
+Harsh Patel​
+Kush Gada​
+Sharv KulkarnI​
+Shubham Atre​
+Vaibhavi Shah​
+Vijay Khot​
