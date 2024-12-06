@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/callChat", llmController.fetchChatGPTResponse);
 router.post("/summarizeDashboard", llmController.getSummaryFromDashboard);
 router.post("/askQuestions", llmController.fetchResponse);
+router.post("/saveQuestions", llmController.saveQuestionsToFile);
 router.post(
   "/getUpcomingAppointmentsSummary",
   llmController.getUpcomingAppointmentsSummary

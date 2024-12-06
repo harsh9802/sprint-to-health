@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import axios from "axios";
+import fs from "fs";
+import path from "path";
 
 dotenv.config({ path: "./config.env" });
 const model_name = "gpt-4o-mini";
@@ -261,3 +263,20 @@ export const getUpcomingAppointmentsSummary = async (req, res) => {
 //     response: data.choices[0].message.content,
 //   });
 // };
+
+export const saveQuestionsToFile = (req, res) => {
+  const filePath = path.join('./data/askedQuestions.json');
+  let data = req.body.qna
+  const jsonData = JSON.stringify(data, null, 2);
+
+  fs.writeFile(filePath, jsonData, 'utf8', (err) => {
+      if (err) {
+          console.error("Error saving file:", err);
+      } else {
+          console.log("File saved successfully at", filePath);
+          return res.status(200).json({
+            response: "File saved at " + filePath,
+          });
+      }
+  });
+};

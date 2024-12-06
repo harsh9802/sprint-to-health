@@ -328,6 +328,16 @@ recognition.onresult = async (event) => {
     "answer": transcript
   })
 
+  const response = await fetch("/api/v1/llm/saveQuestions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      qna: askedQnA,
+    }),
+  });
+
   askQuestion();
 };
 
