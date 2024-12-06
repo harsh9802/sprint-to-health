@@ -310,9 +310,6 @@ const dashboardContainer = document.querySelector(
 if (dashboardContainer) {
   const userId = document.getElementById("userId").value;
   const explainWithVoiceButton = document.getElementById("getSummary");
-  explainWithVoiceButton.addEventListener("click", () => {
-    summarizeDashboard()
-  });
 
   const addVitalBtn = document.getElementById("addVitalBtn");
   const addVitalForm = document.getElementById("addVitalForm");
