@@ -5,6 +5,9 @@
         <div class="home-content">
             <i class='bx bx-menu'></i>
         </div>
+        <br>
+        <button id="toggleFormButton" class="button">Add New Appointment</button> <!-- Toggle button -->
+        <br>
 
         <!-- Upcoming Appointments Table -->
         <center>
@@ -40,8 +43,7 @@
         <!-- Add New Appointment Form -->
         <center>
             <br>
-            <h2>Add New Appointment</h2>
-            <form id="appointment-form">
+            <form id="appointment-form" class="hidden"> <!-- Hidden by default -->
                 <div>
                     <label for="doctorName">Doctor Name:</label>
                     <input type="text" id="doctorName" name="doctorName" required />
@@ -79,7 +81,7 @@
                 <br>
                 <button type="submit">Add Appointment</button>
             </form>
-
+            <br>
             <a href="/health-dashboard">
                 <button type="button" class="button">Back</button>
             </a>

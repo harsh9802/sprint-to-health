@@ -3,7 +3,7 @@ let bloodPressureData1 = [];
 let bloodPressureData2 = [];
 let oxygenSaturationData = [];
 
-export const fetchVitals = async function (userId) {
+export const fetchVitals = async function (userId, chart3, chart3Unit) {
   try {
     const fetchResponse = await fetch("/api/v1/vitalRecords/getLatestVitals", {
       method: "POST",
@@ -16,7 +16,7 @@ export const fetchVitals = async function (userId) {
           "Blood Sugar Level",
           "Systolic Blood Pressure (Upper)",
           "Diastolic Blood Pressure (Lower)",
-          "Oxygen Saturation",
+          chart3,
         ],
       }),
     });
@@ -32,22 +32,15 @@ export const fetchVitals = async function (userId) {
       glucoseData = data["Blood Sugar Level"] || [];
       bloodPressureData1 = data["Systolic Blood Pressure (Upper)"] || [];
       bloodPressureData2 = data["Diastolic Blood Pressure (Lower)"] || [];
-      oxygenSaturationData = data["Oxygen Saturation"] || [];
+      oxygenSaturationData = data[chart3] || [];
 
-      displayCharts();
+      // Call displayCharts after fetching data for the selected vital
+      displayCharts(chart3, chart3Unit);
     }
   } catch (error) {
     console.error("Error fetching vital records:", error);
   }
 };
-
-const glucoseCtx = document.getElementById("glucoseCanvas").getContext("2d");
-const bloodPressureCtx = document
-  .getElementById("bloodPressureCanvas")
-  .getContext("2d");
-const oxygenSaturationCtx = document
-  .getElementById("oxygenSaturationCanvas")
-  .getContext("2d");
 
 const startRecordButton = document.getElementById("askQuestions");
 const transcriptContainer = document.getElementById("transcript-container");
@@ -102,17 +95,37 @@ const maxQuestionsPerDay = 5;
 let userWantsToStop = false;
 let recentAskQuestion;
 
-function displayCharts() {
-  const labels = Array.from({ length: 15 }, (_, i) => i + 1); // Generate labels from 1 to 15
+// Global variables to store chart instances
+let glucoseChart, bloodPressureChart, oxygenSaturationChart;
 
-  new Chart(glucoseCtx, {
+function displayCharts(chart3, chart3Unit) {
+  // Get canvas contexts
+  let glucoseCtx = document.getElementById("glucoseCanvas").getContext("2d");
+  let bloodPressureCtx = document
+    .getElementById("bloodPressureCanvas")
+    .getContext("2d");
+  let oxygenSaturationCtx = document
+    .getElementById("oxygenSaturationCanvas")
+    .getContext("2d");
+
+  const labels = Array.from({ length: 15 }, (_, i) => i + 1);
+  const chart3_heading = document.querySelector(".chart3_heading");
+  chart3_heading.textContent = `${chart3} Chart`;
+
+  // Destroy existing charts if they exist
+  if (glucoseChart) glucoseChart.destroy();
+  if (bloodPressureChart) bloodPressureChart.destroy();
+  if (oxygenSaturationChart) oxygenSaturationChart.destroy();
+
+  // Create glucose chart
+  glucoseChart = new Chart(glucoseCtx, {
     type: "line",
     data: {
-      labels: labels, // Use labels from 1 to 15
+      labels: labels,
       datasets: [
         {
           label: "Blood Glucose (mg/dL)",
-          data: glucoseData.slice(0, 15), // Map first 15 data points
+          data: glucoseData.slice(0, 15),
           borderColor: "rgba(54, 162, 235, 1)",
           fill: false,
         },
@@ -125,20 +138,21 @@ function displayCharts() {
     },
   });
 
-  new Chart(bloodPressureCtx, {
+  // Create blood pressure chart
+  bloodPressureChart = new Chart(bloodPressureCtx, {
     type: "line",
     data: {
-      labels: labels, // Use labels from 1 to 15
+      labels: labels,
       datasets: [
         {
-          label: "Systolic Blood Pressure(mmHg)",
-          data: bloodPressureData1.slice(0, 15), // Map first 15 data points
+          label: "Systolic Blood Pressure (mmHg)",
+          data: bloodPressureData1.slice(0, 15),
           borderColor: "red",
           fill: false,
         },
         {
-          label: "Diastolic Blood Pressure(mmHg)",
-          data: bloodPressureData2.slice(0, 15), // Map first 15 data points
+          label: "Diastolic Blood Pressure (mmHg)",
+          data: bloodPressureData2.slice(0, 15),
           borderColor: "blue",
           fill: false,
         },
@@ -151,21 +165,22 @@ function displayCharts() {
     },
   });
 
-  new Chart(oxygenSaturationCtx, {
+  // Create dynamic chart for the selected vital
+  oxygenSaturationChart = new Chart(oxygenSaturationCtx, {
     type: "line",
     data: {
-      labels: labels, // Use labels from 1 to 15
+      labels: labels,
       datasets: [
         {
-          label: "Oxygen Saturation (%)",
-          data: oxygenSaturationData.slice(0, 15), // Map first 15 data points
+          label: `${chart3} (${chart3Unit})`,
+          data: oxygenSaturationData.slice(0, 15),
           backgroundColor: "rgba(54, 162, 235, 0.6)",
         },
       ],
     },
     options: {
       scales: {
-        y: { beginAtZero: true, max: 100 },
+        y: { beginAtZero: true },
       },
     },
   });
@@ -298,5 +313,109 @@ const dashboardContainer = document.querySelector(
 if (dashboardContainer) {
   const userId = document.getElementById("userId").value;
   const explainWithVoiceButton = document.getElementById("getSummary");
-  fetchVitals(userId);
+
+  const addVitalBtn = document.getElementById("addVitalBtn");
+  const addVitalForm = document.getElementById("addVitalForm");
+  const vitalNameSelect = document.getElementById("vitalName");
+  const vitalUnitSpan = document.getElementById("vitalUnit");
+  const vitalChartSelect = document.getElementById("vitalChartSelect");
+
+  // Fetch vital names and units from the server
+  const fetchVitalNames = async () => {
+    try {
+      const response = await fetch("/api/v1/vitals/");
+      if (!response.ok) throw new Error("Failed to fetch vitals data.");
+      const vitals = await response.json();
+
+      vitals.data.data.forEach((vital) => {
+        const option = document.createElement("option");
+        option.value = vital.name;
+        option.textContent = vital.name;
+        option.dataset.unit = vital.unit;
+        vitalNameSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Error fetching vital names:", error);
+    }
+  };
+
+  // Fetch vital names and units from the server
+  const fetchVitalCharts = async () => {
+    try {
+      const response = await fetch("/api/v1/vitals/");
+      if (!response.ok) throw new Error("Failed to fetch vitals data.");
+      const vitals = await response.json();
+
+      vitals.data.data.forEach((vital) => {
+        const option = document.createElement("option");
+        option.value = vital.name;
+        option.textContent = vital.name;
+        option.dataset.unit = vital.unit;
+        vitalChartSelect.appendChild(option);
+        vitalChartSelect.value = "Select Another Vital to Render Graph";
+      });
+    } catch (error) {
+      console.error("Error fetching vital charts:", error);
+    }
+  };
+
+  // Show/Hide the form
+  addVitalBtn.addEventListener("click", () => {
+    addVitalForm.classList.toggle("hidden");
+
+    if (!addVitalForm.classList.contains("hidden")) {
+      // Scroll to the form
+      addVitalForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+
+  // Update unit dynamically based on selected vital
+  vitalNameSelect.addEventListener("change", (event) => {
+    const selectedOption = event.target.options[event.target.selectedIndex];
+    vitalUnitSpan.textContent = selectedOption.dataset.unit || "-";
+  });
+
+  vitalChartSelect.addEventListener("change", (event) => {
+    const selectedOption = event.target.options[event.target.selectedIndex];
+    const selectedVital = selectedOption.value;
+    const selectedUnit = selectedOption.dataset.unit;
+
+    fetchVitals(userId, selectedVital, selectedUnit);
+  });
+
+  // Handle form submission
+  const vitalForm = document.getElementById("vitalForm");
+  vitalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const vitalName = vitalNameSelect.value;
+    const vitalValue = document.getElementById("vitalValue").value;
+    const unit = vitalUnitSpan.textContent;
+
+    try {
+      const response = await fetch("/api/v1/vitalRecords", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([{ vital: vitalName, value: vitalValue }]),
+      });
+      console.log("response", response);
+
+      if (response.ok) {
+        alert(`${vitalName} added successfully!`);
+        vitalForm.reset();
+        addVitalForm.classList.add("hidden");
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error adding vital:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  });
+  fetchVitalNames();
+  fetchVitalCharts();
+  fetchVitals(userId, "Oxygen Saturation", "%");
 }

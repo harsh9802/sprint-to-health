@@ -110,7 +110,7 @@ export const getVitalsValuesForLast24Hours = catchAsync(
     }, {});
 
     // Calculate the timestamp for 24 hours ago
-    const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const duration = new Date(Date.now() - 100 * 24 * 60 * 60 * 1000);
 
     // Aggregation pipeline to filter records for the last 24 hours
     const docs = await VitalsRecord.aggregate([
@@ -118,7 +118,7 @@ export const getVitalsValuesForLast24Hours = catchAsync(
         $match: {
           user_id: userObjectId,
           vital_id: { $in: vitalIds },
-          timestamp: { $gte: last24Hours }, // Match records from the last 24 hours
+          timestamp: { $gte: duration }, // Match records from the last 24 hours
         },
       },
       {

@@ -1,0 +1,29 @@
+html
+  head
+    meta(charset='UTF-8')
+    title Upcoming Appointments Reminder
+  body
+    h2 Hi #{firstName},
+    p We wanted to remind you about your upcoming appointments for the next 7 days:
+
+    if options.appointments.length > 0
+      ul
+        each appointment in options.appointments
+          li
+            strong #{appointment.doctorName}
+            br
+            strong Date: #{appointment.appointmentDate}
+            br
+            strong Location: #{appointment.location}
+            br
+            strong Specialization: #{appointment.specialization}
+            br
+            strong Type: #{appointment.appointmentType}
+            br
+    else
+      p You have no appointments in the next 7 days.
+
+    p If you need to manage or reschedule your appointments, visit our
+    a(href=options.url) Appointment Dashboard
+    p Best regards,
+    p Team Sprint2Health
