@@ -2,6 +2,7 @@ let glucoseData = [];
 let bloodPressureData1 = [];
 let bloodPressureData2 = [];
 let oxygenSaturationData = [];
+let askedQnA = []
 
 export const fetchVitals = async function (userId, chart3, chart3Unit) {
   try {
@@ -41,7 +42,7 @@ export const fetchVitals = async function (userId, chart3, chart3Unit) {
   }
 };
 
-const startRecordButton = document.getElementById("askQuestions");
+// const startRecordButton = document.getElementById("askQuestions");
 const transcriptContainer = document.getElementById("transcript-container");
 
 const SpeechRecognition =
@@ -258,7 +259,7 @@ function askQuestion() {
   if (userWantsToStop || questionCount >= maxQuestionsPerDay) {
     const message = userWantsToStop
       ? "Thank you for your responses. You can let me know if you want to continue later."
-      : "You have answered the maximum number of questions for today.";
+      : "Thank you for answering all the questions.";
     //transcriptContainer.innerHTML += `<p>Assistant: ${message}</p>`;
     speak(message);
     return;
@@ -277,7 +278,7 @@ function askQuestion() {
     // transcriptContainer.innerHTML += `<p>Assistant asks: ${question}</p>`;
 
     recentAskQuestion = question;
-    speak(question);
+    speak(question, true);
     questionCount++;
   } else {
     const message = "You have answered all the questions for today.";
@@ -305,9 +306,9 @@ async function fetchChatGPTResponse(transcript) {
   return data.response;
 }
 
-startRecordButton.addEventListener("click", () => {
-  recognition.start();
-});
+// startRecordButton.addEventListener("click", () => {
+//   recognition.start();
+// });
 
 recognition.onresult = async (event) => {
   const transcript = event.results[0][0].transcript.toLowerCase();
@@ -322,14 +323,10 @@ recognition.onresult = async (event) => {
     return;
   }
 
-  if (answeredQuestions.includes(transcript)) {
-    // transcriptContainer.innerHTML += `<p>Assistant: You've already answered that question.</p>`;
-  } else {
-    answeredQuestions.push(transcript);
-    const chatGPTResponse = await fetchChatGPTResponse(transcript);
-    // transcriptContainer.innerHTML += `<p>Assistant: ${chatGPTResponse}</p>`;
-    speak(chatGPTResponse);
-  }
+  askedQnA.push({
+    "question:": recentAskQuestion,
+    "answer": transcript
+  })
 
   askQuestion();
 };
@@ -340,8 +337,15 @@ recognition.onerror = (event) => {
 };
 
 // Start asking questions on page load
-function speak(text) {
+function speak(text, getAnswer) {
   const utterance = new SpeechSynthesisUtterance(text);
+
+  if (getAnswer) {
+    utterance.onend = function(event) {
+      recognition.start();
+    }
+  }
+
   window.speechSynthesis.speak(utterance);
 }
 
