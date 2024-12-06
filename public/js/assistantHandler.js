@@ -34,7 +34,7 @@ recognition.onresult = async (event) => {
   const result = await response.json();
   transcriptContainer.innerHTML += `<p>Assistant: ${result.response}</p>`;
 
-  speak(chatGPTResponse);
+  speak(result.response);
 };
 
 recognition.onerror = (event) => {

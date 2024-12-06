@@ -186,28 +186,25 @@ function displayCharts(chart3, chart3Unit) {
   });
 }
 
-export const summarizeDashboard = async () => {
-  const screenshotTarget = document.body; // Declare screenshotTarget here
-
-  html2canvas(screenshotTarget).then(async (canvas) => {
-    var base64image = canvas.toDataURL("img/png");
-    const response = await fetch("/api/v1/llm/summarizeDashboard", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ dashboardImage: base64image }),
-    });
-
-    response.json().then((summary) => {
-      console.log(summary.response);
-      let summaryJson = summary.response.replace("```json", "");
-      summaryJson = summaryJson.replace("```", "");
-      const transcript = JSON.parse(summaryJson).transcript;
-      console.log(transcript);
-      speak(transcript);
-    });
+export const summarizeDashboard = async (dashboardData) => {
+  const response = await fetch("/api/v1/llm/summarizeDashboard", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dashboardData),
   });
+
+  // Get the response data
+  const result = await response.json();
+
+  // Process the summary and extract transcript
+  let summaryJson = result.response.replace("```json", "");
+  summaryJson = summaryJson.replace("```", "");
+  const transcript = JSON.parse(summaryJson).transcript;
+
+  // Speak the transcript
+  speak(transcript);
 };
 
 document.getElementById("askQuestions").addEventListener("click", () => {
@@ -418,4 +415,16 @@ if (dashboardContainer) {
   fetchVitalNames();
   fetchVitalCharts();
   fetchVitals(userId, "Oxygen Saturation", "%");
+
+  let dashboardData = {
+    glucoseData,
+    bloodPressureData1,
+    bloodPressureData2,
+    oxygenSaturationData,
+  };
+
+  explainWithVoiceButton.addEventListener("click", (event) => {
+    console.log("dashboard", dashboardData);
+    summarizeDashboard(dashboardData);
+  });
 }
