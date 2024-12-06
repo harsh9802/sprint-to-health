@@ -18,7 +18,17 @@
         <section>
             <h2>Your Conversations</h2>
             <div id="transcript-container">
+                {{#if interactions.length}}
+                {{#each interactions}}
+                <div class="interaction">
+                    <p><strong>Command:</strong> {{command}}</p>
+                    <p><strong>Response:</strong> {{response}}</p>
+                    <p><small>Timestamp: {{timestamp}}</small></p>
+                </div>
+                {{/each}}
+                {{else}}
                 <p>No conversations yet. Start by clicking "Talk to Me".</p>
+                {{/if}}
             </div>
         </section>
 

@@ -13,5 +13,6 @@ router.use(authController.protect);
 router.post("/", interactionsController.createInteraction);
 
 router.get("/history", interactionsController.getInteractions);
+router.get("/latest", interactionsController.getLatestInteractions);
 
 export default router;

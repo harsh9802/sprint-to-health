@@ -4,18 +4,19 @@ import catchAsync from "../utils/catchAsync.js";
 
 // Create the interaction
 export const createInteraction = catchAsync(async (req, res, next) => {
-  const { content, role, type } = req.body;
+  const { command, response } = req.body;
 
-  // Create a new interaction and save to the database
+  // Create a new interaction and save it to the database
   const interaction = await Interaction.create({
     user: req.user.id,
-    content: content,
-    role: role,
-    type: type,
+    command: command,
+    response: response,
+    timestamp: Date.now(),
   });
 
-  if (!interaction)
+  if (!interaction) {
     return next(new AppError("Failed to create the interaction.", 500));
+  }
 
   res.status(201).json({
     status: "success",
@@ -40,5 +41,22 @@ export const getInteractions = catchAsync(async (req, res, next) => {
     data: {
       interactions,
     },
+  });
+});
+
+// Get the latest 10 interactions for the logged-in user
+export const getLatestInteractions = catchAsync(async (req, res, next) => {
+  const userId = req.user.id;
+
+  // Fetch the latest 10 interactions for the user
+  const interactions = await Interaction.find({ user: userId })
+    .sort({ timestamp: -1 })
+    .limit(100);
+
+  if (!interactions) return next(new AppError("No interactions found.", 404));
+
+  res.status(200).json({
+    status: "success",
+    data: interactions,
   });
 });

@@ -7,22 +7,16 @@ const interactionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  content: {
+  command: {
     type: String,
-    required: [true, "The content is required."],
+    required: [true, "The user's command is required."],
     trim: true,
   },
-  role: {
+  response: {
     type: String,
-    required: [true, "The role is required."],
+    required: [true, "The assistant's response is required."],
     trim: true,
   },
-  type: {
-    type: String,
-    required: [true, "The type is required."],
-    trim: true,
-  },
-
   timestamp: {
     type: Date,
     default: Date.now,

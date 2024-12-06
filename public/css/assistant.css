@@ -1,61 +1,100 @@
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
+/* Styling for the Transcript Container */
+#transcript-container {
   background-color: #f9f9f9;
-  color: #333;
+  padding: 25px; /* Increase padding for better spacing */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-height: 450px; /* Slightly increase the max height for better space */
+  overflow-y: auto;
+  font-size: 20px; /* Larger font size for readability */
+  line-height: 1.6; /* More line spacing for better readability */
+  color: #333; /* Ensure dark text for high contrast */
 }
-header {
-  background-color: #0078d7;
-  color: white;
-  padding: 1em 0;
-  text-align: center;
+
+.interaction {
+  background-color: #ffffff;
+  padding: 20px; /* Slightly larger padding */
+  margin-bottom: 20px; /* Increase space between interactions */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s, transform 0.3s ease-in-out;
+  font-size: 16px; /* Make the text larger */
+  line-height: 1.6; /* Better line spacing */
 }
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-  padding: 1em;
+
+.interaction:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.02);
 }
-.button-group {
-  margin-top: 1.5em;
+
+.interaction p {
+  margin: 10px 0; /* Increase margin for better spacing */
+  font-size: 16px; /* Larger font size for better readability */
+  color: #333; /* Ensure dark text for contrast */
 }
+
+/* Command and Response Labels */
+.interaction p strong {
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 18px; /* Larger text for commands and responses */
+}
+
+/* Timestamp Styling */
+.interaction p small {
+  font-size: 14px; /* Larger timestamp for better visibility */
+  color: #777;
+  font-style: italic;
+}
+
+/* Header for Voice Assistant Section */
+h1 {
+  font-size: 2.5rem; /* Make header larger for better visibility */
+  color: #2d2d2d;
+  margin-bottom: 20px;
+}
+
+/* Section Styling */
+.container section {
+  margin-bottom: 50px; /* Increase section spacing */
+}
+
 button {
-  background-color: #0078d7;
+  background-color: #4caf50;
   color: white;
   border: none;
-  padding: 0.75em 1.5em;
-  margin: 0.5em;
-  font-size: 1em;
+  padding: 15px 25px; /* Larger button for easier clicking */
+  font-size: 18px; /* Larger button text */
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
 button:hover {
-  background-color: #005bb5;
+  background-color: #45a049;
 }
-#transcript-container {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 1em;
-  margin-top: 1em;
-  border-radius: 5px;
+
+button:focus {
+  outline: none;
 }
-.tips,
-.contact {
-  margin-top: 2em;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 1em;
-  border-radius: 5px;
+
+/* Health Tips Styling */
+.tips ul {
+  list-style: none;
+  padding-left: 0;
 }
-footer {
-  background: #0078d7;
-  color: white;
-  text-align: center;
-  padding: 1em 0;
-  margin-top: 2em;
+
+.tips ul li {
+  background-color: #fff;
+  margin-bottom: 15px; /* Increase space between tips */
+  padding: 15px; /* Increase padding for comfort */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px; /* Larger text for tips */
 }
-.large-text {
-  font-size: 1.25em;
+
+.tips ul li:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
 }

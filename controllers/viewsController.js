@@ -2,6 +2,7 @@ import Appointment from "../models/appointmentModel.js";
 import catchAsync from "../utils/catchAsync.js";
 import Email from "../utils/email.js";
 import moment from "moment";
+import Interaction from "../models/interactionsModel.js";
 
 const calculateAge = (dob) => {
   const birthDate = new Date(dob);
@@ -84,9 +85,19 @@ export const getAppointmentDashboard = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getVoiceAssistant = (req, res) => {
+export const getVoiceAssistant = catchAsync(async (req, res, next) => {
+  const userId = res.locals.user.id;
+
+  // Fetch interactions for the logged-in user, sorted by the timestamp in descending order
+  const interactions = await Interaction.find({ user: userId })
+    .sort({ timestamp: -1 })
+    .limit(100);
+
+  // Render the voice-assistant page with interactions data passed to the view
   res.render("voice-assistant", {
     title: "Sprint2Health Voice Assistant",
     additionalJs: "/js/assistantHandler.js",
+    interactions,
+    cssPath: "/css/assistant.css",
   });
-};
+});
