@@ -12,72 +12,42 @@ export const fetchChatGPTResponse = async (req, res) => {
     Authorization: `Bearer ${OPENAI_API_KEY}`,
   };
 
-  const body = JSON.stringify({
-    model: model_name,
-    messages: [{ role: "user", content: req.body.question }],
-  });
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers,
-    body,
-  });
-  const data = await response.json();
-  console.log(data);
-
-  return res.status(200).json({
-    response: data.choices[0].message.content,
-  });
-};
-
-export const getSummaryFromDashboardOG = async (req, res) => {
-  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  const url = process.env.OPENAI_API_ENDPOINT;
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${OPENAI_API_KEY}`,
-  };
-
-  var dashboardImage = req.body.dashboardImage;
-
+  // Include a system message to set tone and format
   const body = JSON.stringify({
     model: model_name,
     messages: [
       {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: 'Attached image is a screenshot of the dashboard of vitals for a given user. \
-					Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user (might be blind).\
-					Give response in strictly given format JSON: {"transcript": "Thank you for asking about your health summary. <your response based on the dashboard>"}\
-					When forming a dashboard summary, make sure to include specific numbers and not just generalised information.',
-          },
-        ],
+        role: "system",
+        content: `
+          You are a helpful and empathetic assistant designed to communicate with senior individuals. 
+          Your responses should be concise, respectful, and easy to understand. 
+          Use clear language, avoid jargon, and focus on providing meaningful answers tailored to their needs.
+        `,
       },
-      {
-        role: "user",
-        content: [
-          {
-            type: "image_url",
-            image_url: {
-              url: dashboardImage,
-              detail: "low",
-            },
-          },
-        ],
-      },
+      { role: "user", content: req.body.question },
     ],
   });
 
-  const response = await fetch(url, { method: "POST", headers, body });
-  const data = await response.json();
-  console.log(data);
-  console.log(data.choices[0].message.content);
-  // return data.choices[0].message.content;
-  return res.status(200).json({
-    response: data.choices[0].message.content,
-  });
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body,
+    });
+    const data = await response.json();
+
+    console.log("data", data.choices[0].message);
+
+    // Extract response and return to client
+    return res.status(200).json({
+      response: data.choices[0].message.content,
+    });
+  } catch (error) {
+    console.error("Error fetching response from OpenAI:", error);
+    return res.status(500).json({
+      error: "Failed to get response from OpenAI. Please try again later.",
+    });
+  }
 };
 
 export const getSummaryFromDashboard = async (req, res) => {
@@ -128,7 +98,6 @@ export const getSummaryFromDashboard = async (req, res) => {
     // Check for a valid response from OpenAI API
     if (data && data.choices && data.choices[0].message) {
       const summary = data.choices[0].message.content;
-      console.log("Generated Summary:", summary);
       return res.status(200).json({
         response: summary,
       });
@@ -173,3 +142,52 @@ export const fetchResponse = async (req, res) => {
     response: resp.data.choices[0].message.content,
   });
 };
+
+// export const getSummaryFromDashboardOG = async (req, res) => {
+//   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+//   const url = process.env.OPENAI_API_ENDPOINT;
+//   const headers = {
+//     "Content-Type": "application/json",
+//     Authorization: `Bearer ${OPENAI_API_KEY}`,
+//   };
+
+//   var dashboardImage = req.body.dashboardImage;
+
+//   const body = JSON.stringify({
+//     model: model_name,
+//     messages: [
+//       {
+//         role: "user",
+//         content: [
+//           {
+//             type: "text",
+//             text: 'Attached image is a screenshot of the dashboard of vitals for a given user. \
+// 					Your task is to generate a text summary in a specific format only which will be used as a transcript to dictate to the user (might be blind).\
+// 					Give response in strictly given format JSON: {"transcript": "Thank you for asking about your health summary. <your response based on the dashboard>"}\
+// 					When forming a dashboard summary, make sure to include specific numbers and not just generalised information.',
+//           },
+//         ],
+//       },
+//       {
+//         role: "user",
+//         content: [
+//           {
+//             type: "image_url",
+//             image_url: {
+//               url: dashboardImage,
+//               detail: "low",
+//             },
+//           },
+//         ],
+//       },
+//     ],
+//   });
+
+//   const response = await fetch(url, { method: "POST", headers, body });
+//   const data = await response.json();
+
+//   // return data.choices[0].message.content;
+//   return res.status(200).json({
+//     response: data.choices[0].message.content,
+//   });
+// };
