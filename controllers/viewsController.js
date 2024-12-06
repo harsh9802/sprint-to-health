@@ -1,5 +1,7 @@
 import Appointment from "../models/appointmentModel.js";
 import catchAsync from "../utils/catchAsync.js";
+import Email from "../utils/email.js";
+import moment from "moment";
 
 const calculateAge = (dob) => {
   const birthDate = new Date(dob);
@@ -54,6 +56,23 @@ export const getAppointmentDashboard = catchAsync(async (req, res, next) => {
     patient: userId,
     appointmentDate: { $gte: currentDate, $lte: endDate },
   }).sort({ appointmentDate: 1 });
+
+  // Check for appointments in the next 7 days
+  const sevenDaysLater = moment().add(7, "days").toDate();
+  const upcomingAppointments = appointments.filter(
+    (app) => new Date(app.appointmentDate) <= sevenDaysLater
+  );
+
+  // If there are upcoming appointments, send an email
+  const baseUrl = `${req.protocol}://${req.get("host")}/appointment-dashboard`;
+
+  if (upcomingAppointments.length > 0) {
+    const email = new Email(req.user, baseUrl);
+    await email.send("appointmentReminder", "Upcoming Appointments Reminder", {
+      appointments: upcomingAppointments,
+      url: baseUrl,
+    });
+  }
 
   // Render the dashboard with appointments
   res.status(200).render("appointmentDashboard", {

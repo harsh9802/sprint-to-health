@@ -5,6 +5,7 @@
     <div class="button-container">
         <button id="getSummary">Explain with Voice</button>
         <button id="askQuestions">Start Interaction</button>
+        <button id="addVitalBtn">Add Health Vital</button>
     </div>
 
     <div class="grid-container">
@@ -33,18 +34,47 @@
             <canvas id="bloodPressureCanvas"></canvas>
         </div>
 
-        <!-- Activity Chart -->
+        <!-- Oxygen Saturation Chart -->
         <div class="section chart" id="oxygen-saturation-chart">
-            <h3>Oxygen Saturation Chart</h3>
+            <h3 class="chart3_heading">Oxygen Saturation Chart</h3>
             <canvas id="oxygenSaturationCanvas"></canvas>
+            <h3>Select Vital</h3>
+            <select id="vitalChartSelect">
+                <option value="" selected>Select Another Vital to Render Graph</option>
+            </select>
         </div>
+
+
     </div>
+
     <!-- Hidden field for user._id -->
     <input type="hidden" id="userId" value="{{user._id}}">
+
+    <!-- Add Health Vital Form -->
+    <div id="addVitalForm" class="hidden">
+        <h3>Add New Health Vital</h3>
+        <form id="vitalForm">
+            <div>
+                <label for="vitalName">Vital:</label>
+                <select id="vitalName" name="vitalName" required></select>
+            </div>
+            <br>
+            <div>
+                <label for="vitalValue">Value:</label>
+                <input type="text" id="vitalValue" name="vitalValue" required />
+            </div>
+            <br>
+            <div>
+                <label for="vitalUnit">Unit:</label>
+                <span id="vitalUnit">-</span>
+            </div>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@0.4.1/dist/html2canvas.min.js"></script>
-
 
 {{> _footer}}

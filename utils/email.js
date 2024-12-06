@@ -39,7 +39,7 @@ class Email {
     });
   }
 
-  async send(template, subject) {
+  async send(template, subject, options) {
     try {
       const html = pug.renderFile(
         `${__dirname}/../views/email/${template}.pug`,
@@ -47,6 +47,7 @@ class Email {
           firstName: this.firstName,
           url: this.url,
           subject,
+          options,
         }
       );
 
@@ -60,7 +61,10 @@ class Email {
       await this.newTransport().sendMail(mailOptions);
       console.log("Email sent successfully");
     } catch (error) {
-      console.error("Error sending email:", error.response.body);
+      console.error(
+        "Error sending email:",
+        error.response ? error.response.body : error.message
+      );
     }
   }
 
