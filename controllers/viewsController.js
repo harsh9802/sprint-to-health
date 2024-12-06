@@ -80,6 +80,7 @@ export const getAppointmentDashboard = catchAsync(async (req, res, next) => {
     title: "Appointments Dashboard",
     user: res.locals.user,
     appointments,
+    upcomingAppointments,
     cssPath: "/css/appointment.css",
     additionalJs: "/js/appointmentDashboard.js",
   });

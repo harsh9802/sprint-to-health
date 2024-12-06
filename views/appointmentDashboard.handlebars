@@ -5,9 +5,19 @@
         <div class="home-content">
             <i class='bx bx-menu'></i>
         </div>
-        <br>
-        <button id="toggleFormButton" class="button">Add New Appointment</button> <!-- Toggle button -->
-        <br>
+        <dir class="toggleButton">
+            <br>
+            <button id="toggleFormButton" class="button">Add New Appointment</button> <!-- Toggle button -->
+            <br>
+        </dir>
+
+        <!-- New Button Section -->
+        <center>
+            <div class="voice-button-group">
+                <button id="voiceButton" class="button">Upcoming Appointments 🔈</button>
+                <button id="stop-voice-btn">Stop Voice</button>
+            </div>
+        </center>
 
         <!-- Upcoming Appointments Table -->
         <center>
@@ -78,10 +88,8 @@
                         <option value="Virtual">Virtual</option>
                     </select>
                 </div>
-                <br>
                 <button type="submit">Add Appointment</button>
             </form>
-            <br>
             <a href="/health-dashboard">
                 <button type="button" class="button">Back</button>
             </a>

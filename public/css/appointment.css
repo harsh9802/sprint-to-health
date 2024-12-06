@@ -115,8 +115,12 @@ h2 {
   display: none;
 }
 
+.toggleButton {
+  display: flex;
+  justify-content: center;
+}
 #toggleFormButton {
-  width: 100%;
+  width: 400px;
   background: linear-gradient(45deg, #6a11cb, #2575fc);
   color: white;
   font-size: 1rem;
@@ -167,4 +171,48 @@ h2 {
   form button {
     font-size: 14px;
   }
+}
+
+/* Voice button container */
+.voice-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#voiceButton,
+#stop-voice-btn {
+  width: auto; /* Allow the buttons to auto-size based on content */
+  padding: 10px 20px; /* Adjust padding for better button sizing */
+  font-size: 1rem; /* Adjust font size */
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for voice buttons */
+#voiceButton:hover,
+#stop-voice-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(45deg, #2575fc, #6a11cb);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active effect for the voice buttons */
+#voiceButton:active,
+#stop-voice-btn:active {
+  transform: scale(1.05);
+  background: #6a11cb;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus effect for the voice buttons */
+#voiceButton:focus,
+#stop-voice-btn:focus {
+  outline: 3px solid #2575fc;
 }

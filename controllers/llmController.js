@@ -143,6 +143,76 @@ export const fetchResponse = async (req, res) => {
   });
 };
 
+// Upcoming appointments
+export const getUpcomingAppointmentsSummary = async (req, res) => {
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+  const url = process.env.OPENAI_API_ENDPOINT;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${OPENAI_API_KEY}`,
+  };
+
+  const appointments = req.body.appointments; // This should be an array of upcoming appointments
+
+  // Preparing the content for OpenAI API
+  let appointmentDetails = "";
+  if (appointments.length > 0) {
+    appointments.forEach((appointment, index) => {
+      appointmentDetails += `
+        Appointment ${index + 1}:
+        - Doctor: ${appointment.doctorName}
+        - Date: ${new Date(appointment.appointmentDate).toLocaleDateString()}
+        - Location: ${appointment.location}
+        - Specialization: ${appointment.specialization}
+        - Type: ${appointment.appointmentType}
+        \n`;
+    });
+  } else {
+    appointmentDetails = "You have no upcoming appointments for the next week.";
+  }
+
+  const body = JSON.stringify({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant that provides information about upcoming appointments.",
+      },
+      {
+        role: "user",
+        content: `Here is a list of upcoming appointments:
+
+        ${appointmentDetails}
+        
+        Please provide a concise and short summary for the user in the following format:
+        {"Here are your upcoming appointments. <Provide summary based on the details>"}`,
+      },
+    ],
+  });
+
+  try {
+    // Send the data to OpenAI API
+    const response = await fetch(url, { method: "POST", headers, body });
+    const data = await response.json();
+
+    // Check for a valid response from OpenAI API
+    if (data && data.choices && data.choices[0].message) {
+      const summary = data.choices[0].message.content;
+      return res.status(200).json({
+        response: summary,
+      });
+    } else {
+      return res.status(500).json({ error: "Failed to generate summary" });
+    }
+  } catch (error) {
+    console.error("Error fetching from OpenAI API:", error);
+    return res
+      .status(500)
+      .json({ error: "Failed to get response from OpenAI" });
+  }
+};
+
 // export const getSummaryFromDashboardOG = async (req, res) => {
 //   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 //   const url = process.env.OPENAI_API_ENDPOINT;
