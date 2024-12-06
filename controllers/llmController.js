@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import axios from "axios";
 
-dotenv.config({ path: "./config.env" }); // Load environment variables
-
+dotenv.config({ path: "./config.env" });
 const model_name = "gpt-4o-mini";
 
 export const fetchChatGPTResponse = async (req, res) => {

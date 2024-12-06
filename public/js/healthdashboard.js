@@ -185,25 +185,69 @@ function displayCharts(chart3, chart3Unit) {
   });
 }
 
-export const summarizeDashboard = async (dashboardData) => {
-  const response = await fetch("/api/v1/llm/summarizeDashboard", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dashboardData),
-  });
+export const summarizeDashboard = async (userId) => {
+  try {
+    // Fetch all the vitals data
+    const fetchVitalsData = async (vitalNames) => {
+      const response = await fetch("/api/v1/vitalRecords/getLatestVitals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          vital_names: vitalNames,
+        }),
+      });
 
-  // Get the response data
-  const result = await response.json();
+      const result = await response.json();
+      return result.data;
+    };
 
-  // Process the summary and extract transcript
-  let summaryJson = result.response.replace("```json", "");
-  summaryJson = summaryJson.replace("```", "");
-  const transcript = JSON.parse(summaryJson).transcript;
+    // Fetch required data
+    const vitalsData = await fetchVitalsData([
+      "Blood Sugar Level",
+      "Systolic Blood Pressure (Upper)",
+      "Diastolic Blood Pressure (Lower)",
+      "Oxygen Saturation",
+    ]);
 
-  // Speak the transcript
-  speak(transcript);
+    // Extract specific data for voice assistant
+    const glucoseData = vitalsData["Blood Sugar Level"] || [];
+    const bloodPressureData1 =
+      vitalsData["Systolic Blood Pressure (Upper)"] || [];
+    const bloodPressureData2 =
+      vitalsData["Diastolic Blood Pressure (Lower)"] || [];
+    const oxygenSaturationData = vitalsData["Oxygen Saturation"] || [];
+
+    const dashboardData = {
+      glucoseData,
+      bloodPressureData1,
+      bloodPressureData2,
+      oxygenSaturationData,
+    };
+
+    // Send the dashboard data to the server for summarization
+    const response = await fetch("/api/v1/llm/summarizeDashboard", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dashboardData),
+    });
+
+    // Process the summary and extract transcript
+    const result = await response.json();
+    let summaryJson = result.response.replace("```json", "");
+    summaryJson = summaryJson.replace("```", "");
+    const transcript = JSON.parse(summaryJson).transcript;
+
+    // Speak the transcript
+    speak(transcript);
+  } catch (error) {
+    console.error("Error summarizing dashboard:", error);
+    alert("Failed to summarize the dashboard. Please try again.");
+  }
 };
 
 document.getElementById("askQuestions").addEventListener("click", () => {
@@ -414,15 +458,7 @@ if (dashboardContainer) {
   fetchVitalCharts();
   fetchVitals(userId, "Oxygen Saturation", "%");
 
-  let dashboardData = {
-    glucoseData,
-    bloodPressureData1,
-    bloodPressureData2,
-    oxygenSaturationData,
-  };
-
   explainWithVoiceButton.addEventListener("click", (event) => {
-    console.log("dashboard", dashboardData);
-    summarizeDashboard(dashboardData);
+    summarizeDashboard(userId);
   });
 }
