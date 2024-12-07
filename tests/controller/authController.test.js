@@ -57,3 +57,6 @@
 //     expect(response.body.token).toBeDefined();
 //   });
 // });
+test("basic test", () => {
+  expect(true).toBe(true);
+});

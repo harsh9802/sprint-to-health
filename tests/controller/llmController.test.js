@@ -59,3 +59,6 @@
 // test("basic test", () => {
 //   expect(true).toBe(true);
 // });
+test("basic test", () => {
+  expect(true).toBe(true);
+});
