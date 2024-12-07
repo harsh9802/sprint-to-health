@@ -2,7 +2,7 @@ let glucoseData = [];
 let bloodPressureData1 = [];
 let bloodPressureData2 = [];
 let oxygenSaturationData = [];
-let askedQnA = []
+let askedQnA = [];
 
 export const fetchVitals = async function (userId, chart3, chart3Unit) {
   try {
@@ -325,8 +325,8 @@ recognition.onresult = async (event) => {
 
   askedQnA.push({
     "question:": recentAskQuestion,
-    "answer": transcript
-  })
+    answer: transcript,
+  });
 
   const response = await fetch("/api/v1/llm/saveQuestions", {
     method: "POST",
@@ -351,9 +351,9 @@ function speak(text, getAnswer) {
   const utterance = new SpeechSynthesisUtterance(text);
 
   if (getAnswer) {
-    utterance.onend = function(event) {
+    utterance.onend = function (event) {
       recognition.start();
-    }
+    };
   }
 
   window.speechSynthesis.speak(utterance);
