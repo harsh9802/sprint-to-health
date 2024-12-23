@@ -80,9 +80,9 @@ Multilingual Support: Connect with diverse audiences.​
 
 # Team Members
 
-Harsh Patel​
-Kush Gada​
-Sharv KulkarnI​
-Shubham Atre​
-Vaibhavi Shah​
-Vijay Khot​
+| Harsh Patel​ | 
+Kush Gada​ | 
+Sharv Kulkarni | ​
+Shubham Atre​ | 
+Vaibhavi Shah​ | 
+Vijay Khot​ |
