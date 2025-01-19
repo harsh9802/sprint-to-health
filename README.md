@@ -1,5 +1,9 @@
 # Sprint2Health: Agile Development of a Voice Assistant for Seniors' Health
 
+**🎥 Walkthrough Video:**  
+[Click here to watch the Sprint2Health Website Walkthrough!](<(https://youtu.be/pbw8xyw-jNU)>)
+
+
 ## Project Overview
 
 **Objective:**  
