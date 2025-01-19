@@ -30,7 +30,7 @@ The development follows **Scrum** and **Kanban** methodologies, broken into 4 sp
 
 1. [Project Vision and Introduction](#vision-and-introduction)
 2. [Key Features](#key-features)
-3. [Demo](#demo)
+3. [Agile Implementation](#agile-implementation)
 4. [Technical Details](#technical-details)
 5. [Installation](#installation)
 6. [Challenges & Learnings](#challenges-and-learnings)
@@ -73,13 +73,54 @@ This voice assistant is designed to cater to seniors by providing them with an i
 
 ---
 
-## Demo
+## Agile Implementation
 
-A prototype of the project is available, demonstrating the voice interaction, health dashboard, and notifications functionality.
+The development of Sprint2Health was conducted over **4 sprints**, each lasting **14 days**, following a mix of Scrum and Kanban frameworks for an iterative and collaborative approach. Below is the sprint-wise breakdown:
 
-- **Voice interaction** to manage health-related queries and appointments.
-- **Health dashboard** displays and summarizes the user's health data.
-- **Alert notifications** for health vitals, appointments, and medicine.
+### Sprint 1: Health Dashboard and Health Vitals Data Integration  
+- **Objective:**  
+  Build a functional health dashboard and integrate vital health data.  
+- **User Stories:**  
+  - Display health dashboard with vitals (Handlebars templating).  
+  - Integrate backend health questions for voice interactions.  
+  - Enable audio summaries of health vitals on the dashboard.  
+- **Outcome:**  
+  The health dashboard was fully functional and integrated with the MongoDB database using Mongoose. Code was pushed to GitHub.
+
+### Sprint 2: Notifications and Previous Responses Tracking  
+- **Objective:**  
+  Add user notifications and implement tracking of previous responses.  
+- **User Stories:**  
+  - Notify users based on vital data.  
+  - Display previous responses.  
+- **Outcome:**  
+  Added tracking and notifications functionality. Transitioned to Kanban for better workflow optimization during this phase.
+
+### Sprint 3: Final Integration and Enhancements  
+- **Objective:**  
+  Integrate remaining features and enhance application functionality.  
+- **User Stories:**  
+  - Daily personalized health tips.  
+  - End-to-end encryption for HIPAA compliance (using Node.js Crypto module).  
+- **Outcome:**  
+  The application was fully integrated, tested, and debugged, with a polished and secure final product.
+
+---
+
+### Agile Ceremonies  
+Throughout the development process, we followed various Agile ceremonies and practices:  
+- **Sprint Planning:** Discussed and finalized sprint goals.  
+- **Sprint Review:** Evaluated progress and showcased deliverables weekly.  
+- **Sprint Retrospective:** Reflected on challenges and identified opportunities for improvement.  
+- **Daily Standups:** Ensured clear communication and quick resolution of blockers.  
+
+For the first three sprints, the **Scrum** framework was followed, while the final sprint adopted **Kanban** to optimize workflows.  
+**Jira** and **Jira Confluence** were utilized for:  
+- Writing storyboards and timelines.  
+- Creating, prioritizing, and assigning tasks.  
+- Monitoring sprint progress.  
+
+---
 
 ---
 
