@@ -26,7 +26,7 @@ The development follows **Scrum** and **Kanban** methodologies, broken into 4 sp
 2. [Key Features](#key-features)
 3. [Demo](#demo)
 4. [Technical Details](#technical-details)
-5. [Prerequisites](#prerequisites)
+5. [Installation](#installation)
 6. [Challenges & Learnings](#challenges-and-learnings)
 7. [Possible Future Enhancements](#possible-future-enhancements)
 8. [Acknowledgements](#acknowledgements)
