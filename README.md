@@ -1,63 +1,99 @@
-# Agile Project : sprint-to-health
+# Sprint2Health: Agile Development of a Voice Assistant for Seniors' Health
 
-User friendly voice assistant application for senior citizens.
+## Project Overview
 
-# Overview
-The objective of this project is to build a health-centric voice assistant that simplifies health management through voice commands. The core idea is to enable users to manage their health easily by interacting with the assistant, which responds to health-related queries and provides essential information. The technology stack includes Node.js, JavaScript, ChatGPT API, Mongoose, Handlebars, CSS, and HTML, which work together to create a seamless user experience. It is structured over four sprints, each lasting two weeks, ensuring incremental progress and continuous feedback.
+**Objective:**  
+Sprint2Health aims to build a health-centric voice assistant to help seniors manage their health-related tasks more easily through voice commands.
 
-# Project Purpose
+**Core Idea:**  
+The voice assistant is designed to simplify health management by responding to voice commands, offering health insights, reminders for medications and appointments, and ensuring a seamless, user-friendly experience for elderly users.
 
-The purpose of this project is to create an intuitive, health-focused voice assistant that helps users manage their health through voice commands. It aims to provide easy access to vital health information and reminders, enhancing convenience and support for users, especially the elderly.
+**Technology Stack:**  
+- **Frontend:** HTML, CSS, Handlebars
+- **Backend:** Node.js, JavaScript
+- **Database:** MongoDB with Mongoose
+- **Voice Integration:** ChatGPT API for voice responses
+- **Security:** End-to-end encryption for HIPAA compliance
 
-# Agile Methodology
-This project follows an Agile approach, utilizing Scrum and Kanban methodologies for efficient development, with the team working in four-week sprints. Each sprint is dedicated to developing a set of features, reviewing progress, and adapting based on client feedback.
+**Agile Approach:**  
+The development follows **Scrum** and **Kanban** methodologies, broken into 4 sprints of 2 weeks each.
 
-# Key Agile Practices Implemented:
-- **User Stories**: Each feature is developed based on user stories focusing on the needs of healthcare providers and patients.
-- **Iterative Development**: Feature Voice Assistant,Health Dashboard, Appointment and Medicine Alerts, Communication Logs Dashboard and Data Security with Encryption. 
-- **Weekly Meetings**: The team meets weekly to discuss progress and identify blockers.
-- **Sprint Reviews**: At the end of each sprint, the team demonstrates completed features and receives feedback from client.
-- **Backlog Grooming**: The product backlog is regularly updated to reflect changes in priorities.
+---
 
+## Table of Contents
 
-# Getting Started
-## Prerequisites
-## Installation
-# Features :
-## Key Features:
-1. Voice Assistant​
- Interacts with the user via a fine-tuned LLM for health-related queries.​
- Provides accurate responses in a configurable voice.​
+1. [Project Vision and Introduction](#vision-and-introduction)
+2. [Key Features](#key-features)
+3. [Demo](#demo)
+4. [Technical Details](#technical-details)
+5. [Installation](#installation)
+6. [Usage](#usage)
+7. [Challenges & Learnings](#challenges-and-learnings)
+8. [Future Enhancements](#future-enhancements)
+9. [Contributing](#contributing)
+10. [License](#license)
+11. [Acknowledgements](#acknowledgements)
 
-2. Health Dashboard:​
- Displays vital health information.​
- Offers voice output summarizing daily health status.​
- Proactively asks follow-up questions based on user health data.​
+---
 
-3. Appointment and Medicine Alerts:​
- Notifications for upcoming appointments and medicine.​
- Users can manage appointments via a dedicated dashboard.​
+## Vision and Introduction
 
-4. Communication Logs Dashboard:​
- Records all voice interactions securely.​
- Allows users, doctors, and relatives to analyze past communications.​
+**Vision:**  
+To create an accessible and intuitive platform for seniors that fosters independence, improves health management, and strengthens doctor-patient connections through cutting-edge technology.
 
-5. Data Security with Encryption:​
- Implements robust encryption mechanisms.​
- Ensures HIPAA-compliant protection for sensitive health data.​
+**Introduction:**  
+This voice assistant is designed to cater to seniors by providing them with an intuitive tool for managing health-related activities. It bridges the gap between technology and elderly patients, following HIPAA guidelines to safeguard sensitive health information.
 
+---
 
-# Project Roadmap
-## Sprint 1:
-## Sprint 2:
-## Sprint 3:
-## Sprint 4:
+## Key Features
 
-# Team Members
+1. **Voice Assistant**  
+   - Interacts with users via a fine-tuned LLM (Language Model) for health-related queries.
+   - Provides responses in a configurable voice.
 
-| Harsh Patel​ | 
-Kush Gada​ | 
-Sharv Kulkarni | ​
-Shubham Atre​ | 
-Vaibhavi Shah​ | 
-Vijay Khot​ |
+2. **Health Dashboard**  
+   - Displays vital health information in a user-friendly format.
+   - Summarizes daily health status through voice feedback.
+   - Proactively asks follow-up questions based on health data.
+
+3. **Appointment and Medicine Alerts**  
+   - Sends notifications for upcoming appointments and medication schedules.
+   - Users can manage appointments via a dedicated dashboard.
+
+4. **Communication Logs Dashboard**  
+   - Records all voice interactions securely for future analysis.
+   - Allows doctors, relatives, and users to review past communications.
+
+5. **Data Security with Encryption**  
+   - Implements encryption mechanisms for HIPAA-compliant protection of health data.
+
+---
+
+## Demo
+
+A prototype of the project is available, demonstrating the voice interaction, health dashboard, and notifications functionality.
+
+- **Voice interaction** to manage health-related queries and appointments.
+- **Health dashboard** displays and summarizes the user's health data.
+- **Alert notifications** for health vitals, appointments, and medicine.
+
+---
+
+## Technical Details
+
+- **Node.js**: Server-side logic
+- **ChatGPT API**: Used for generating voice responses based on user input
+- **Mongoose**: To manage data persistence in MongoDB
+- **Handlebars**: Templating for dynamic frontend rendering
+- **CSS/HTML**: For frontend design
+- **Node.js Crypto**: For implementing end-to-end encryption to comply with HIPAA guidelines
+
+---
+
+### Prerequisites
+
+- **Node.js** (version 14 or higher)
+- **MongoDB** (for the local database, or a MongoDB Atlas account)
+- **ChatGPT API** (sign up for access)
+---
