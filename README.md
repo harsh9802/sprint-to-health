@@ -154,16 +154,16 @@ You’re now ready to use Sprint2Health locally! 🎉
 
 ---
 
-## Possible Future Enhancements
-	1.	Doctor Portal: A platform for doctors to manage patient data and appointments.
-	2.	Personalized Care: Tailored responses based on the user’s medical history and interactions.
-	3.	Emergency Alerts: Automatic alerts to family members and medical personnel in case of critical health changes.
-	4.	IoT Integration: Integration with smart health devices to track real-time health vitals.
-	5.	Multilingual Support: Expand the voice assistant to cater to users from diverse linguistic backgrounds.
+## Possible Future Enhancements:
+1. Doctor Portal: A platform for doctors to manage patient data and appointments.
+2. Personalized Care: Tailored responses based on the user’s medical history and interactions.
+3. Emergency Alerts: Automatic alerts to family members and medical personnel in case of critical health changes.
+4. IoT Integration: Integration with smart health devices to track real-time health vitals.
+5. Multilingual Support: Expand the voice assistant to cater to users from diverse linguistic backgrounds.
 
 
 ---
 
 ## Acknowledgements
-	•	Professor Zhongyuan (Annie) Yu and TAs: For their continuous support and feedback throughout the course.
-	•	Ravi Kiran (VitaLink): For your collaboration and insights that greatly enhanced the project’s direction.
+• Professor Zhongyuan (Annie) Yu and TAs: For their continuous support and feedback throughout the course.
+• Ravi Kiran (VitaLink): For your collaboration and insights that greatly enhanced the project’s direction.
