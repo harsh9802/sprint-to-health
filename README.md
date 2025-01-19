@@ -102,6 +102,36 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/sprint2health.git
+   
+2. Navigate to the project directory
+   ```bash
+   cd sprint2health
+   
+3. Install dependencies
+   Install all necessary Node.js packages:
+   ```bash
+   npm install
+   
+4. Set up environment variables
+   Create a .env file in the root directory of the project and add the following values:
+   ```plaintext
+   CHATGPT_API_KEY=your-chatgpt-api-key
+   MONGODB_URI=your-mongodb-uri
+
+   Replace your-chatgpt-api-key with your ChatGPT API key and your-mongodb-uri with your MongoDB connection string.
+   
+5. Start the application
+   Run the following command to start the application:
+   ```bash
+   npm start
+
+6. Access the application
+   Open your web browser and visit:
+   ```
+   http://localhost:3000
+
+You’re now ready to use Sprint2Health locally! 🎉
+   
 
 
 ## Prerequisites
