@@ -3,7 +3,8 @@
 **🎥 Walkthrough Video:**  
 [Click here to watch the Sprint2Health Website Walkthrough!](https://youtu.be/pbw8xyw-jNU)
 
-🎥 [Click here to watch the Sprint2Health Final Presentation!](https://youtu.be/KOYfsgNYhVk)
+**🎥 Final Project Presentation Video:**  
+[Click here to watch the Sprint2Health Final Presentation!](https://youtu.be/KOYfsgNYhVk)
 
 ---
 
@@ -223,3 +224,14 @@ You’re now ready to use Sprint2Health locally! 🎉
 • Professor Zhongyuan (Annie) Yu and TAs: For their continuous support and feedback throughout the course.
 
 • Ravi Kiran (VitaLink): For your collaboration and insights that greatly enhanced the project’s direction.
+
+
+This project was developed as part of the **CS 555: Agile Methods in Software Development** course for the **Fall 2024 semester** at **Stevens Institute of Technology**.
+
+### Group Members:
+- HARSH PATEL
+- KUSH GADA
+- SHARV KULKARNI
+- SHUBHAM ATRE
+- VAIBHAVI SHAH
+- VIJAY KHOT
