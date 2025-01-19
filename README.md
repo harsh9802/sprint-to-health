@@ -46,16 +46,6 @@ This project follows an Agile approach, utilizing Scrum and Kanban methodologies
  Implements robust encryption mechanisms.​
  Ensures HIPAA-compliant protection for sensitive health data.​
 
-## Extra Features
-Doctor Portal: Analyze patient data and manage appointments.​
-
-​Personalized Care: Tailor responses using medical history and interactions.​
-
-​Emergency Alerts: Notify contacts via continuous health monitoring.​
-
-IoT Integration: Access health vitals from smart devices.​
-
-Multilingual Support: Connect with diverse audiences.​
 
 # Project Roadmap
 ## Sprint 1:
