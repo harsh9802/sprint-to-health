@@ -2,21 +2,6 @@
 
 User friendly voice assistant application for senior citizens.
 
-# Step-by-step instructions to run
-
-## Step 1
-
-After cloning the repository, run 'npm install'
-
-## Step 2
-
-Save the config.file in the root directory
-
-## Step 3
-
-run 'npm start' to run the code and open a URL http://localhost:3000
-
-
 # Overview
 The objective of this project is to build a health-centric voice assistant that simplifies health management through voice commands. The core idea is to enable users to manage their health easily by interacting with the assistant, which responds to health-related queries and provides essential information. The technology stack includes Node.js, JavaScript, ChatGPT API, Mongoose, Handlebars, CSS, and HTML, which work together to create a seamless user experience. It is structured over four sprints, each lasting two weeks, ensuring incremental progress and continuous feedback.
 
