@@ -25,12 +25,12 @@ The objective of this project is to build a health-centric voice assistant that 
 The purpose of this project is to create an intuitive, health-focused voice assistant that helps users manage their health through voice commands. It aims to provide easy access to vital health information and reminders, enhancing convenience and support for users, especially the elderly.
 
 # Agile Methodology
-This project follows the The project follows an Agile approach, utilizing Scrum and Kanban methodologies for efficient development, with the team working in four-week sprints. Each sprint is dedicated to developing a set of features, reviewing progress, and adapting based on client feedback.
+This project follows an Agile approach, utilizing Scrum and Kanban methodologies for efficient development, with the team working in four-week sprints. Each sprint is dedicated to developing a set of features, reviewing progress, and adapting based on client feedback.
 
 # Key Agile Practices Implemented:
 - **User Stories**: Each feature is developed based on user stories focusing on the needs of healthcare providers and patients.
 - **Iterative Development**: Feature Voice Assistant,Health Dashboard, Appointment and Medicine Alerts, Communication Logs Dashboard and Data Security with Encryption. 
-- **Daily Standups**: The team meets weekly to discuss progress and identify blockers.
+- **Weekly Meetings**: The team meets weekly to discuss progress and identify blockers.
 - **Sprint Reviews**: At the end of each sprint, the team demonstrates completed features and receives feedback from client.
 - **Backlog Grooming**: The product backlog is regularly updated to reflect changes in priorities.
 
