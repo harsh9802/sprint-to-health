@@ -77,7 +77,18 @@ This voice assistant is designed to cater to seniors by providing them with an i
 
 The development of Sprint2Health was conducted over **4 sprints**, each lasting **14 days**, following a mix of Scrum and Kanban frameworks for an iterative and collaborative approach. Below is the sprint-wise breakdown:
 
-### Sprint 1: Health Dashboard and Health Vitals Data Integration  
+### Sprint 1: Voice Assistant Prototype and Backend Setup  
+- **Objective:**  
+  Set up a working prototype of the voice assistant and create a basic backend for user database and authentication.  
+- **User Stories:**  
+  - Develop a prototype for the voice assistant with basic voice interaction functionality.  
+  - Set up the backend for user data storage and authentication (Node.js and Mongoose).  
+  - Enable user registration and login functionality.  
+- **Outcome:**  
+  Delivered a functional prototype of the voice assistant and implemented backend services for authentication and database integration. Code was pushed to GitHub.
+
+
+### Sprint 2: Health Dashboard and Health Vitals Data Integration  
 - **Objective:**  
   Build a functional health dashboard and integrate vital health data.  
 - **User Stories:**  
@@ -87,7 +98,7 @@ The development of Sprint2Health was conducted over **4 sprints**, each lasting 
 - **Outcome:**  
   The health dashboard was fully functional and integrated with the MongoDB database using Mongoose. Code was pushed to GitHub.
 
-### Sprint 2: Notifications and Previous Responses Tracking  
+### Sprint 3: Notifications and Previous Responses Tracking  
 - **Objective:**  
   Add user notifications and implement tracking of previous responses.  
 - **User Stories:**  
@@ -96,7 +107,7 @@ The development of Sprint2Health was conducted over **4 sprints**, each lasting 
 - **Outcome:**  
   Added tracking and notifications functionality. Transitioned to Kanban for better workflow optimization during this phase.
 
-### Sprint 3: Final Integration and Enhancements  
+### Sprint 4: Final Integration and Enhancements  
 - **Objective:**  
   Integrate remaining features and enhance application functionality.  
 - **User Stories:**  
