@@ -164,6 +164,8 @@ You’re now ready to use Sprint2Health locally! 🎉
 
 ---
 
-## Acknowledgements
+## Acknowledgements:
+
 • Professor Zhongyuan (Annie) Yu and TAs: For their continuous support and feedback throughout the course.
+
 • Ravi Kiran (VitaLink): For your collaboration and insights that greatly enhanced the project’s direction.
